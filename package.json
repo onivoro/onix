@@ -1,10 +1,29 @@
 {
     "name": "@onivoro/onix",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "executors": "./executors.json",
+    "repository": {
+        "url": "git+https://github.com/onivoro/onix.git"
+    },
+    "main": "dist/cjs/index.js",
+    "types": "dist/types/index.d.ts",
+    "files": [
+        "dist/*"
+    ],
     "scripts": {
+        "onx": "onx",
         "build": "onx Build",
-        "deploy": "onx Deploy"
+        "deploy": "onx Publish",
+        "test": "onx Test",
+        "update": "onx Update"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/types/index.d.ts",
+            "require": "./dist/cjs/index.js",
+            "import": "./dist/esm/index.js",
+            "default": "./dist/esm/lib.js"
+        }
     },
     "dependencies": {
         "@nx/devkit": "20.0.6"
