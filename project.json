@@ -1,0 +1,49 @@
+{
+  "name": "onix",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/onix/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/onix",
+        "tsConfig": "libs/onix/tsconfig.lib.json",
+        "packageJson": "libs/onix/package.json",
+        "main": "libs/onix/src/index.ts",
+        "assets": ["libs/onix/executors.json", "libs/onix/src/executors/**/*.json"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs onix {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/onix/**/*.ts",
+          "libs/onix/package.json",
+          "libs/onix/executors.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/onix/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

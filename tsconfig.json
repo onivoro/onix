@@ -1,0 +1,13 @@
+{
+  "extends": "./node_modules/@onivoro/cli/src/assets/tsconfig.22.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

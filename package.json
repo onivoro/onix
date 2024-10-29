@@ -1,0 +1,19 @@
+{
+    "name": "@onivoro/onix",
+    "version": "0.0.3",
+    "executors": "./executors.json",
+    "scripts": {
+        "build": "onx Build",
+        "deploy": "onx Deploy"
+    },
+    "dependencies": {
+        "@nx/devkit": "20.0.6"
+    },
+    "devDependencies": {
+        "@onivoro/cli": "^22.0.8"
+    },
+    "engines": {
+        "node": "22.10.0",
+        "npm": "10.9.0"
+    }
+}
