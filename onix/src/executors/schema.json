@@ -1,7 +1,7 @@
 {
-  "$schema": "http://json-schema.org/schema",
+  "$schema": "https://json-schema.org/schema",
   "version": 2,
-  "title": "Echo executor",
+  "title": "Xxxx executor",
   "description": "",
   "type": "object",
   "properties": {},
