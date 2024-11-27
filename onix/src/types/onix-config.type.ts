@@ -7,6 +7,5 @@ export type TOnixConfig = {
             "port": string;
             "prefix": string;
             "profile": string;
-            "requireBastion": boolean;
     }>;
 };

@@ -20,13 +20,9 @@
     "ormConfigPath": {
       "type": "string",
       "description": "Path and name of the ormconfig"
-    },
-    "requireBastion": {
-      "type": "boolean",
-      "description": "Whether to check for a bastion connection before performing operation"
     }
   },
   "required": [
-    "envPath", "envKey", "ormConfigPath", "requireBastion"
+    "envPath", "envKey", "ormConfigPath"
   ]
 }

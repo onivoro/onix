@@ -3,5 +3,4 @@ export interface ExecutorSchema {
     envKey: string;
     ormConfigPath: string;
     runOrRevert: string;
-    requireBastion: boolean;
 } // eslint-disable-line

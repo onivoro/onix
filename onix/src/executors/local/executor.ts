@@ -2,7 +2,6 @@ import {
   ExecutorContext,
   PromiseExecutor,
 } from '@nx/devkit';
-import { checkForBastion } from '../../utils/check-for-bastion.function';
 import { execSync } from 'child_process';
 import { ExecutorSchema } from './schema';
 
@@ -12,10 +11,9 @@ const runExecutor: PromiseExecutor<ExecutorSchema> = async (
 ) => {
   console.log('Running custom serve executor');
 
-  const { envKey, envPath, requireBastion } = options;
+  const { envKey, envPath } = options;
 
   try {
-    checkForBastion(requireBastion);
     const inspectStatement = options.port ? `--port=${options.port}` : '';
     const command = `export ${envKey}=${envPath} && npx nx run ${context.projectName}:serve ${inspectStatement}`;
     console.log(command);

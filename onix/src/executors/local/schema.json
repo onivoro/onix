@@ -16,15 +16,10 @@
     "debugPort": {
       "type": "number",
       "description": "Debug port"
-    },
-    "requireBastion": {
-      "type": "boolean",
-      "description": "Whether to check for a bastion connection before performing operation"
     }
   },
   "required": [
     "envPath",
-    "envKey",
-    "requireBastion"
+    "envKey"
   ]
 }
