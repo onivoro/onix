@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Db executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "envPath": {
+      "type": "string",
+      "description": "Path and name of the .env file to load"
+    },
+    "ecr": {
+      "type": "string",
+      "description": "Name of the ECR repository and tag (conventionally separated by a colon)"
+    },
+    "prefix": {
+      "type": "string",
+      "description": "Common prefix of the AWS ECS cluster and service"
+    },
+    "profile": {
+      "type": "string",
+      "description": "Either 'ivimdev' or 'ivimprod' (either of which must be defined in the ~/.aws/credentials file"
+    }
+  },
+  "required": [
+    "envPath", "ecr", "prefix", "profile"
+  ]
+}

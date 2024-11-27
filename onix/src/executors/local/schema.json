@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Local serve executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "envPath": {
+      "type": "string",
+      "description": "Path and name of the .env file to load"
+    },
+    "envKey": {
+      "type": "string",
+      "description": "Name of the environment variable that points to the location of the envFile"
+    },
+    "debugPort": {
+      "type": "number",
+      "description": "Debug port"
+    },
+    "requireBastion": {
+      "type": "boolean",
+      "description": "Whether to check for a bastion connection before performing operation"
+    }
+  },
+  "required": [
+    "envPath",
+    "envKey",
+    "requireBastion"
+  ]
+}

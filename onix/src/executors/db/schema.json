@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Db executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "runOrRevert": {
+      "type": "string",
+      "description": "TypeORM CLI command: 'run' or 'revert'"
+    },
+    "envPath": {
+      "type": "string",
+      "description": "Path and name of the .env file to load"
+    },
+    "envKey": {
+      "type": "string",
+      "description": "Name of the environment variable that points to the location of the envFile"
+    },
+    "ormConfigPath": {
+      "type": "string",
+      "description": "Path and name of the ormconfig"
+    },
+    "requireBastion": {
+      "type": "boolean",
+      "description": "Whether to check for a bastion connection before performing operation"
+    }
+  },
+  "required": [
+    "envPath", "envKey", "ormConfigPath", "requireBastion"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Db executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "envPath": {
+      "type": "string",
+      "description": "Path and name of the .env file to load"
+    },
+    "ecr": {
+      "type": "string",
+      "description": "Name of the ECR repository and tag (conventionally separated by a colon)"
+    },
+    "port": {
+      "type": "string",
+      "description": "Port docker port to bind to localhost"
+    }
+  },
+  "required": [
+    "envPath", "ecr", "port"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "VS Code executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+  },
+  "required": [
+  ]
+}

@@ -1,9 +1,10 @@
 {
   "$schema": "https://json-schema.org/schema",
   "version": 2,
-  "title": "Xxxx executor",
+  "title": "Gen executor",
   "description": "",
   "type": "object",
-  "properties": {},
+  "properties": {
+  },
   "required": []
 }
