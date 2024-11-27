@@ -152,7 +152,7 @@ async function buildOnixTargets(
   const namedInputs = getNamedInputs(projectRoot, context);
 
   Object.entries(onixConfig.environments || {}).forEach(([environment, config]) => {
-    const buildTargetName = `lee-${environment}`;
+    const buildTargetName = `serve-${environment}`;
     const { envPath, envKey } = config;
     targets[buildTargetName] = {
       command: `export ${envKey}=${envPath} && npx nx run ${projectJson.name}:serve`,
