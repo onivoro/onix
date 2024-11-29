@@ -3,7 +3,8 @@
   "version": "3.3.9",
   "license": "MIT",
   "scripts": {
-    "build": "nx run onix:build"
+    "build": "nx run onix:build",
+    "deploy": "npm run build && cd dist/onix && npm publish --access public"
   },
   "private": true,
   "dependencies": {
