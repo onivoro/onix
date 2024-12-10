@@ -8,7 +8,7 @@ export function addGenTarget(onixConfig: TOnixConfig, targets: Record<string, Ta
     if (apiClientPath && apiDoxPath) {
         const targetName = `onix-generate-axios`;
 
-        const command = `rm -rf ${apiClientPath}/src/lib && mkdir -p ${apiClientPath}/src/lib && docker run --rm -v .:/local openapitools/openapi-generator-cli:v6.3.0 generate -i local/${apiDoxPath} -g typescript-axios -o local/${apiClientPath}`;
+        const command = `rm -rf ${apiClientPath} && mkdir -p ${apiClientPath} && docker run --rm -v .:/local openapitools/openapi-generator-cli:v6.3.0 generate -i local/${apiDoxPath} -g typescript-axios -o local/${apiClientPath}`;
 
         targets[targetName] = {
           command,
