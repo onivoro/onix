@@ -8,6 +8,7 @@ import { join } from "path";
 import { addServeTargets } from "./add-serve-targets.function";
 import { addDockerTargets } from "./add-docker-targets.function";
 import { addDbTargets } from "./add-db-targets.function";
+import { addGenTarget } from "./add-gen-target.function";
 
 export async function buildOnixTargets(
     configFilePath: string,
@@ -36,6 +37,7 @@ export async function buildOnixTargets(
     addServeTargets(onixConfig, targets, projectJson, namedInputs);
     addDockerTargets(onixConfig, targets, projectJson, namedInputs);
     addDbTargets(onixConfig, targets, projectJson, namedInputs);
+    addGenTarget(onixConfig, targets, projectJson, namedInputs);
 
     const metadata = {};
     return { targets, metadata };

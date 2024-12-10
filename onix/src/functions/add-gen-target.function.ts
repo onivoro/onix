@@ -1,0 +1,32 @@
+import { TargetConfiguration } from "@nx/devkit";
+import { TOnixConfig } from "../types/onix-config.type";
+import { buildTargetName } from "../constants/build-target-name.constant";
+
+export function addGenTarget(onixConfig: TOnixConfig, targets: Record<string, TargetConfiguration<any>>, projectJson: any, namedInputs) {
+    const { moniker } = onixConfig;
+
+    if (moniker) {
+        const targetName = `onix-generate-axios`;
+
+        const command = `rm -rf libs/axios/${moniker}/src/lib && mkdir -p libs/axios/${moniker}/src/lib && docker run --rm -v .:/local openapitools/openapi-generator-cli:v6.3.0 generate -i local/api-dox/app-api-${moniker}.json -g typescript-axios -o local/libs/axios/${moniker}/src/lib`;
+
+        targets[targetName] = {
+          command,
+          options: { cwd: process.cwd() },
+          cache: true,
+          dependsOn: [`^${buildTargetName}`],
+          inputs: [
+            ...('production' in namedInputs
+              ? ['production', '^production']
+              : ['default', '^default']),
+            {
+              externalDependencies: [],
+            },
+          ],
+          metadata: {
+            technologies: ['openapi', 'docker'],
+            description: `Generates the openapi client`,
+          },
+        };
+    }
+}
