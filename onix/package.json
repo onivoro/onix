@@ -1,6 +1,6 @@
 {
   "name": "@onivoro/onix",
-  "version": "3.3.13",
+  "version": "3.3.14",
   "dependencies": {
     "@nx/devkit": "20.0.6",
     "tslib": "^2.3.0"

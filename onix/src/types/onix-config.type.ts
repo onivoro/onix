@@ -10,5 +10,7 @@ export type TOnixEnvironmentConfig = {
 
 export type TOnixConfig = {
     moniker: string;
+    apiDoxPath?: string;
+    apiClientPath?: string;
     environments: Record<string, TOnixEnvironmentConfig>;
 };
