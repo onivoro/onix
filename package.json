@@ -1,6 +1,6 @@
 {
   "name": "@onivoro/onix",
-  "version": "3.3.9",
+  "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "build": "nx run onix:build",

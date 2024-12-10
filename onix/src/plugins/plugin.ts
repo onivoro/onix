@@ -151,41 +151,69 @@ async function buildOnixTargets(
 
   const namedInputs = getNamedInputs(projectRoot, context);
 
-  Object.entries(onixConfig.environments || {}).forEach(([environment, config]) => {
-    const buildTargetName = `serve-${environment}`;
-    const { envPath, envKey } = config;
-    targets[buildTargetName] = {
-      command: `export ${envKey}=${envPath} && npx nx run ${projectJson.name}:serve`,
-      options: { cwd: process.cwd() },
-      cache: true,
-      dependsOn: [`^${buildTargetName}`],
-      inputs: [
-        ...('production' in namedInputs
-          ? ['production', '^production']
-          : ['default', '^default']),
-        {
-          externalDependencies: [],
-        },
-      ],
-      outputs: [],
-      metadata: {
-        technologies: ['what goes here for technologies'],
-        description: `Run the thing`,
-        // help: {
-        //   command: `${pmc.exec} vite build --help`,
-        //   example: {
-        //     options: {
-        //       sourcemap: true,
-        //       manifest: 'manifest.json',
-        //     },
-        //   },
-        // },
-      },
-    };
-  });
+  addLocalServeTargets(onixConfig, targets, projectJson, namedInputs);
+  addDockerTargets(onixConfig, targets, projectJson, namedInputs);
 
   const metadata = {};
   return { targets, metadata };
+}
+
+function addLocalServeTargets(onixConfig: TOnixConfig, targets: Record<string, TargetConfiguration<any>>, projectJson: any, namedInputs) {
+  Object.entries(onixConfig.environments || {}).forEach(([environment, config]) => {
+    addLocalServeTarget(environment, config, targets, projectJson, namedInputs);
+  });
+}
+
+function addDockerTargets(onixConfig: TOnixConfig, targets: Record<string, TargetConfiguration<any>>, projectJson: any, namedInputs) {
+  Object.entries(onixConfig.environments || {}).forEach(([environment, config]) => {
+    addDockerTarget(environment, config, targets, projectJson, namedInputs);
+  });
+}
+
+function addLocalServeTarget(environment: string, config: { ecr: string; envKey: string; envPath: string; port: string; prefix: string; profile: string; }, targets: Record<string, TargetConfiguration<any>>, projectJson: any, namedInputs) {
+  const buildTargetName = `build`;
+  const targetName = `onix-serve-${environment}`;
+  const { envPath, envKey } = config;
+  targets[targetName] = {
+    command: `export ${envKey}=${envPath} && npx nx run ${projectJson.name}:serve`,
+    options: { cwd: process.cwd() },
+    cache: true,
+    dependsOn: [`^${buildTargetName}`],
+    inputs: [
+      ...('production' in namedInputs
+        ? ['production', '^production']
+        : ['default', '^default']),
+      {
+        externalDependencies: [],
+      },
+    ],
+    outputs: [],
+    metadata: {
+      technologies: ['NodeJS, Nx'],
+      description: `Invokes Nx serve with config-specified environment`,
+    },
+  };
+}
+
+function addDockerTarget(environment: string, config: { ecr: string; envKey: string; envPath: string; port: string; prefix: string; profile: string; }, targets: Record<string, TargetConfiguration<any>>, projectJson: any, namedInputs) {
+  const targetName = `onix-serve-${environment}`;
+  const { envPath, envKey, ecr, port } = config;
+  const localPort = (Number(port) + 2000);
+
+  if (ecr) {
+
+    targets[targetName] = {
+      command: `open http://localhost:${localPort} & docker run -p ${localPort}:${port} --env="PORT=${port}" --env-file "${envPath}" "${ecr}"`,
+      options: { cwd: process.cwd() },
+      cache: true,
+      inputs: [],
+      outputs: [],
+      metadata: {
+        technologies: ['Docker'],
+        description: `Runs the docker image locally`,
+      },
+    };
+  }
 }
 
 function normalizeOutputPath(
