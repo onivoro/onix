@@ -196,7 +196,7 @@ function addLocalServeTarget(environment: string, config: { ecr: string; envKey:
 }
 
 function addDockerTarget(environment: string, config: { ecr: string; envKey: string; envPath: string; port: string; prefix: string; profile: string; }, targets: Record<string, TargetConfiguration<any>>, projectJson: any, namedInputs) {
-  const targetName = `onix-serve-${environment}`;
+  const targetName = `onix-serve-docker-${environment}`;
   const { envPath, envKey, ecr, port } = config;
   const localPort = (Number(port) + 2000);
 
