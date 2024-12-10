@@ -2,7 +2,7 @@ export type TOnixEnvironmentConfig = {
     ecr: string;
     envKey: string;
     envPath: string;
-    port: string;
+    port?: string;
     prefix: string;
     profile: string;
     ormConfigPath?: string;
