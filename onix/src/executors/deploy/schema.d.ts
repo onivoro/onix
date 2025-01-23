@@ -3,4 +3,4 @@ export interface ExecutorSchema {
     ecr: string;
     prefix: string;
     profile: string;
-} // eslint-disable-line
+}

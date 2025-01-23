@@ -20,8 +20,8 @@
         "outputPath": "dist/onix",
         "main": "onix/src/index.ts",
         "tsConfig": "onix/tsconfig.lib.json",
+        "generatePackageJson": true,
         "assets": [
-          "onix/*.md",
           {
             "input": "./onix/src",
             "glob": "**/!(*.ts)",
@@ -48,16 +48,6 @@
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/{projectRoot}"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "onix/jest.config.ts"
       }
     }
   }
