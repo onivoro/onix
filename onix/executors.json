@@ -1,9 +1,39 @@
 {
   "executors": {
-    "xxxx": {
-      "implementation": "./src/executors/executor",
-      "schema": "./src/executors/schema.json",
-      "description": "xxxx executor"
+    "build-cli": {
+      "implementation": "./onix/src/executors/build-cli/executor",
+      "schema": "./onix/src/executors/build-cli/executor/schema.json",
+      "description": "build-cli"
+    },
+    "orm": {
+      "implementation": "./onix/src/executors/db/executor",
+      "schema": "./onix/src/executors/db/executor/schema.json",
+      "description": "db"
+    },
+    "docker-run": {
+      "implementation": "./onix/src/executors/docker/executor",
+      "schema": "./onix/src/executors/docker/executor/schema.json",
+      "description": "docker-run"
+    },
+    "docker-deploy": {
+      "implementation": "./onix/src/executors/deploy/executor",
+      "schema": "./onix/src/executors/deploy/executor/schema.json",
+      "description": "docker-deploy"
+    },
+    "gen-axios": {
+      "implementation": "./onix/src/executors/gen/executor",
+      "schema": "./onix/src/executors/gen/executor/schema.json",
+      "description": "gen-axios"
+    },
+    "serve-locally": {
+      "implementation": "./onix/src/executors/local/executor",
+      "schema": "./onix/src/executors/local/executor/schema.json",
+      "description": "serve-locally"
+    },
+    "playwright": {
+      "implementation": "./onix/src/executors/playwright/executor",
+      "schema": "./onix/src/executors/playwright/executor/schema.json",
+      "description": "playwright"
     }
   }
 }

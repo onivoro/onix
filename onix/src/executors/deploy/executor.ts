@@ -6,15 +6,20 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
   options: ExecutorSchema,
   context: ExecutorContext
 ) => {
-  const { envPath, ecr, prefix, profile } = options;
-
-  // TODO: THROW IF AWS PROFILE HAS SPECIFIED PROFILE
+  const { envPath, ecr, prefix, profile, dockerfilePath } = options;
 
   try {
     const webProjectName = context.projectName!.replace('api', 'web');
     const apiProjectPath = context.projectName!.split('-').join('/').replace('app', 'apps').replace('appss', 'apps');
     const webProjectPath = apiProjectPath.replace('api', 'web').replace('app', 'apps').replace('appss', 'apps');
 
+    // build api
+    execSync
+    // build ui if there's a ui project in onix.config
+    // copy ui dist to api dist/assets if there's ui project in onix.config
+    // login to docker
+    // push image
+    // restart cluster service
     const command = `export OSO_ENV=${envPath} && oso DeployImageAndUi -a ${context.projectName} -t production -p ${profile} -r us-east-2 -e ${ecr} -o ${apiProjectPath} -u ${webProjectName} -d dist/${webProjectPath} -f docker/prod/api/Dockerfile -g asdf && aws ecs update-service --cluster ${prefix}-cluster --service ${prefix}-service --force-new-deployment --profile ${profile} --region us-east-2`;
 
     logger.info(command);

@@ -1,6 +1,5 @@
-export interface ExecutorSchema {
-    envPath: string;
-    ecr: string;
-    prefix: string;
-    profile: string;
+import { TOnixEnvironmentConfig } from "onix/src/types/onix-config.type";
+
+export interface ExecutorSchema extends TOnixEnvironmentConfig {
+
 }

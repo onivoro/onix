@@ -7,12 +7,12 @@ export type TOnixEnvironmentConfig = {
     profile: string;
     ormConfigPath?: string;
     dockerfilePath?: string;
+    webClientProjectPath?: string;
 };
 
 export type TOnixConfig = {
     moniker: string;
     apiDoxPath?: string;
     apiClientPath?: string;
-    webClientPath?: string;
     environments: Record<string, TOnixEnvironmentConfig>;
 };
