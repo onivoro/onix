@@ -5,21 +5,14 @@
   "description": "",
   "type": "object",
   "properties": {
-    "envPath": {
-      "type": "string",
-      "description": "Path and name of the .env file to load"
-    },
-    "envKey": {
-      "type": "string",
-      "description": "Name of the environment variable that points to the location of the envFile"
-    },
     "debugPort": {
       "type": "number",
       "description": "Debug port"
+    },
+    "envFile": {
+      "type": "string",
+      "description": "Path and name of the .env file to load"
     }
   },
-  "required": [
-    "envPath",
-    "envKey"
-  ]
+  "required": []
 }

@@ -1,30 +1,45 @@
 import { ExecutorContext, PromiseExecutor, logger } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
 import { execSync } from 'child_process';
+import { pushImageToECRWrapped } from '../../functions/push-image-to-ecr-wrapped.function';
+import { extractProjectBuildOutputs } from 'onix/src/functions/extract-project-build-outputs.function';
+import { extractProjectBuildAssets } from 'onix/src/functions/extract-project-build-assets.function';
+
+const stdio = 'inherit';
 
 const executor: PromiseExecutor<ExecutorSchema> = async (
   options: ExecutorSchema,
   context: ExecutorContext
 ) => {
-  const { envPath, ecr, prefix, profile, dockerfilePath } = options;
+  const { ecr, profile, dockerfile, ui } = options;
 
   try {
-    const webProjectName = context.projectName!.replace('api', 'web');
-    const apiProjectPath = context.projectName!.split('-').join('/').replace('app', 'apps').replace('appss', 'apps');
-    const webProjectPath = apiProjectPath.replace('api', 'web').replace('app', 'apps').replace('appss', 'apps');
+    const [apiProjectAssetPath] = extractProjectBuildAssets(context, context.projectName);
 
-    // build api
-    execSync
-    // build ui if there's a ui project in onix.config
-    // copy ui dist to api dist/assets if there's ui project in onix.config
-    // login to docker
-    // push image
-    // restart cluster service
-    const command = `export OSO_ENV=${envPath} && oso DeployImageAndUi -a ${context.projectName} -t production -p ${profile} -r us-east-2 -e ${ecr} -o ${apiProjectPath} -u ${webProjectName} -d dist/${webProjectPath} -f docker/prod/api/Dockerfile -g asdf && aws ecs update-service --cluster ${prefix}-cluster --service ${prefix}-service --force-new-deployment --profile ${profile} --region us-east-2`;
+    if (ui) {
+      if (apiProjectAssetPath) {
+        const webProjectOutputs = extractProjectBuildOutputs(context, ui);
 
-    logger.info(command);
+        if (webProjectOutputs?.length) {
+          execSync(`npx nx build ${ui}`, { stdio });
 
-    execSync(command, { stdio: 'inherit' });
+          webProjectOutputs.forEach(element => {
+            execSync(`cp -R ${element} ${apiProjectAssetPath}`, { stdio });
+          });
+        } else {
+          logger.warn(`unable to locate target "build" outputs within project configuration for specified webProjectName "${ui}"`);
+        }
+      } else {
+        logger.warn(`unable to locate target "build" asset path (expecting targets.build.options.assets -> ["things/and/stuff"]) within project configuration for project "${context.projectName}"`);
+      }
+    }
+    const [projectOutput] = extractProjectBuildOutputs(context, context.projectName);
+
+    execSync(`'docker build --build-arg APP_DIST="${projectOutput}" -f ${dockerfile} -t ${ecr} .`, { stdio });
+
+    await pushImageToECRWrapped({ ecr, profile });
+
+    // restart cluster service by converting this to use '@aws-sdk' instead of cli as shown =>>>>> aws ecs update-service --cluster ${prefix}-cluster --service ${prefix}-service --force-new-deployment --profile ${profile} --region us-east-2`;
 
     return {
       success: true,

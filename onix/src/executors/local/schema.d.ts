@@ -1,5 +1,4 @@
 export interface ExecutorSchema {
-    envPath: string;
-    envKey: string;
-    port?: number;
+    debugPort?: number;
+    envFile?: string;
 }

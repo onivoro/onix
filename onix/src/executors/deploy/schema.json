@@ -5,24 +5,25 @@
   "description": "",
   "type": "object",
   "properties": {
-    "envPath": {
-      "type": "string",
-      "description": "Path and name of the .env file to load"
-    },
     "ecr": {
       "type": "string",
       "description": "Name of the ECR repository and tag (conventionally separated by a colon)"
     },
-    "prefix": {
+    "dockerfile": {
       "type": "string",
-      "description": "Common prefix of the AWS ECS cluster and service"
+      "description": "Path and name of the Dockerfile"
     },
     "profile": {
       "type": "string",
-      "description": "Either 'ivimdev' or 'ivimprod' (either of which must be defined in the ~/.aws/credentials file"
+      "description": "AWS profile name (which must be defined in the ~/.aws/credentials file) if AWS keys aren't defined as env vars"
+    },
+    "ui": {
+      "type": "string",
+      "description": "Name of the web/UI project to include in the assets included in the Docker image"
     }
   },
   "required": [
-    "envPath", "ecr", "prefix", "profile"
+    "ecr",
+    "dockerfile"
   ]
 }

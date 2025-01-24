@@ -25,10 +25,10 @@
       "schema": "./src/executors/gen/schema.json",
       "description": "gen-axios"
     },
-    "serve-locally": {
+    "local": {
       "implementation": "./src/executors/local/executor",
       "schema": "./src/executors/local/schema.json",
-      "description": "serve-locally"
+      "description": "local"
     },
     "lee": {
       "implementation": "./src/executors/lee/executor",

@@ -12,6 +12,7 @@
     "@aws-sdk/credential-providers": "^3.734.0",
     "@nx/devkit": "^20.3.2",
     "@nx/js": "20.3.2",
+    "@playwright/test": "^1.50.0",
     "esbuild": "^0.24.2",
     "esbuild-node-externals": "^1.16.0"
   },
