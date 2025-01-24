@@ -1,38 +1,38 @@
 {
   "executors": {
     "build-cli": {
-      "implementation": "./onix/src/executors/build-cli/executor",
-      "schema": "./onix/src/executors/build-cli/executor/schema.json",
+      "implementation": "./src/executors/build-cli",
+      "schema": "./src/executors/build-cli/schema.json",
       "description": "build-cli"
     },
     "orm": {
-      "implementation": "./onix/src/executors/db/executor",
-      "schema": "./onix/src/executors/db/executor/schema.json",
+      "implementation": "./src/executors/db",
+      "schema": "./src/executors/db/schema.json",
       "description": "db"
     },
     "docker-run": {
-      "implementation": "./onix/src/executors/docker/executor",
-      "schema": "./onix/src/executors/docker/executor/schema.json",
+      "implementation": "./src/executors/docker",
+      "schema": "./src/executors/docker/schema.json",
       "description": "docker-run"
     },
     "docker-deploy": {
-      "implementation": "./onix/src/executors/deploy/executor",
-      "schema": "./onix/src/executors/deploy/executor/schema.json",
+      "implementation": "./src/executors/deploy",
+      "schema": "./src/executors/deploy/schema.json",
       "description": "docker-deploy"
     },
     "gen-axios": {
-      "implementation": "./onix/src/executors/gen/executor",
-      "schema": "./onix/src/executors/gen/executor/schema.json",
+      "implementation": "./src/executors/gen",
+      "schema": "./src/executors/gen/schema.json",
       "description": "gen-axios"
     },
     "serve-locally": {
-      "implementation": "./onix/src/executors/local/executor",
-      "schema": "./onix/src/executors/local/executor/schema.json",
+      "implementation": "./src/executors/local",
+      "schema": "./src/executors/local/schema.json",
       "description": "serve-locally"
     },
     "playwright": {
-      "implementation": "./onix/src/executors/playwright/executor",
-      "schema": "./onix/src/executors/playwright/executor/schema.json",
+      "implementation": "./src/executors/playwright",
+      "schema": "./src/executors/playwright/schema.json",
       "description": "playwright"
     }
   }
