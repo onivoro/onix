@@ -5,10 +5,10 @@
       "schema": "./src/executors/build-cli/schema.json",
       "description": "build-cli"
     },
-    "orm": {
-      "implementation": "./src/executors/db/executor",
-      "schema": "./src/executors/db/schema.json",
-      "description": "db"
+    "typeorm": {
+      "implementation": "./src/executors/typeorm/executor",
+      "schema": "./src/executors/typeorm/schema.json",
+      "description": "typeorm"
     },
     "docker-run": {
       "implementation": "./src/executors/docker/executor",
@@ -29,6 +29,11 @@
       "implementation": "./src/executors/local/executor",
       "schema": "./src/executors/local/schema.json",
       "description": "serve-locally"
+    },
+    "lee": {
+      "implementation": "./src/executors/lee/executor",
+      "schema": "./src/executors/lee/schema.json",
+      "description": "lee"
     },
     "playwright": {
       "implementation": "./src/executors/playwright/executor",
