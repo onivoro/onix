@@ -1,37 +1,37 @@
 {
   "executors": {
     "build-cli": {
-      "implementation": "./src/executors/build-cli",
+      "implementation": "./src/executors/build-cli/executor",
       "schema": "./src/executors/build-cli/schema.json",
       "description": "build-cli"
     },
     "orm": {
-      "implementation": "./src/executors/db",
+      "implementation": "./src/executors/db/executor",
       "schema": "./src/executors/db/schema.json",
       "description": "db"
     },
     "docker-run": {
-      "implementation": "./src/executors/docker",
+      "implementation": "./src/executors/docker/executor",
       "schema": "./src/executors/docker/schema.json",
       "description": "docker-run"
     },
     "docker-deploy": {
-      "implementation": "./src/executors/deploy",
+      "implementation": "./src/executors/deploy/executor",
       "schema": "./src/executors/deploy/schema.json",
       "description": "docker-deploy"
     },
     "gen-axios": {
-      "implementation": "./src/executors/gen",
+      "implementation": "./src/executors/gen/executor",
       "schema": "./src/executors/gen/schema.json",
       "description": "gen-axios"
     },
     "serve-locally": {
-      "implementation": "./src/executors/local",
+      "implementation": "./src/executors/local/executor",
       "schema": "./src/executors/local/schema.json",
       "description": "serve-locally"
     },
     "playwright": {
-      "implementation": "./src/executors/playwright",
+      "implementation": "./src/executors/playwright/executor",
       "schema": "./src/executors/playwright/schema.json",
       "description": "playwright"
     }
