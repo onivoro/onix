@@ -20,7 +20,10 @@
     "ui": {
       "type": "string",
       "description": "Name of the web/UI project to include in the assets included in the Docker image"
-    }
+    },
+    "cluster": { "type": "string", "description": "AWS cluster for identifying the ECS service to redeploy"},
+    "region": { "type": "string", "description": "AWS region for identifying the ECS service to redeploy"},
+    "service": { "type": "string", "description": "AWS service for identifying the ECS service to redeploy"},
   },
   "required": [
     "ecr",

@@ -4,16 +4,14 @@ import { execSync } from 'child_process';
 
 export interface PushImageConfig {
   region: string;
-  repositoryName: string;
-  imageTag: string;
+  ecr: string;
   registryId: string;
   profile: string;
 }
 
 export async function pushImageToECR({
   region,
-  repositoryName,
-  imageTag,
+  ecr,
   registryId,
   profile
 }: PushImageConfig): Promise<void> {
@@ -48,16 +46,7 @@ export async function pushImageToECR({
       { stdio: 'inherit' }
     );
 
-    // Tag image
-    const remoteImage = `${registryEndpoint.replace('https://', '')}/${repositoryName}:${imageTag}`;
-    execSync(`docker tag ${repositoryName}:${imageTag} ${remoteImage}`,
-      { stdio: 'inherit' }
-    );
-
-    // Push image
-    execSync(`docker push ${remoteImage}`,
-      { stdio: 'inherit' }
-    );
+    execSync(`docker push ${ecr}`, { stdio: 'inherit' });
 
     console.log('Successfully pushed image to ECR');
   } catch (error) {
