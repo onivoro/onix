@@ -1,7 +1,7 @@
 import { ExecutorContext, logger } from "@nx/devkit";
 import { extractProjectConfiguration } from "./extract-project-configuration.function";
 
-export function extractProjectBuildAssets (context: ExecutorContext, projectName: string) {
+export function extractProjectBuildAssets (context: ExecutorContext, projectName: string): string[] {
     const projectConfiguration = extractProjectConfiguration(context, projectName);
 
     if (projectConfiguration) {

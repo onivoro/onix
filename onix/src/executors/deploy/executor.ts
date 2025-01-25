@@ -2,8 +2,8 @@ import { ExecutorContext, PromiseExecutor, logger } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
 import { execSync } from 'child_process';
 import { pushImageToECRWrapped } from '../../functions/push-image-to-ecr-wrapped.function';
-import { extractProjectBuildOutputs } from 'onix/src/functions/extract-project-build-outputs.function';
-import { extractProjectBuildAssets } from 'onix/src/functions/extract-project-build-assets.function';
+import { extractProjectBuildOutputs } from '../../functions/extract-project-build-outputs.function';
+import { extractProjectBuildAssets } from '../../functions/extract-project-build-assets.function';
 
 const stdio = 'inherit';
 
