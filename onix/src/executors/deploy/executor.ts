@@ -16,6 +16,8 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
   try {
     const [apiProjectAssetPath] = extractProjectBuildAssets(context, context.projectName);
 
+    execSync(`npx nx build ${context.projectName}`, { stdio });
+
     if (ui) {
       if (apiProjectAssetPath) {
         const webProjectOutputs = extractProjectBuildOutputs(context, ui);
@@ -35,7 +37,7 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
     }
     const [projectOutput] = extractProjectBuildOutputs(context, context.projectName);
 
-    execSync(`'docker build --build-arg APP_DIST="${projectOutput}" -f ${dockerfile} -t ${ecr} .`, { stdio });
+    execSync(`docker build --build-arg APP_DIST="${projectOutput}" -f ${dockerfile} -t ${ecr} .`, { stdio });
 
     await pushImageToECRWrapped({ ecr, profile });
 
