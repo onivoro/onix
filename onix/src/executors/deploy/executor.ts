@@ -37,7 +37,17 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
     }
     const [projectOutput] = extractProjectBuildOutputs(context, context.projectName);
 
-    execSync(`docker build --build-arg APP_DIST="${projectOutput}" -f ${dockerfile} -t ${ecr} .`, { stdio });
+    logger.debug({projectOutput});
+
+    const dockerCommand = `docker build --build-arg="APP_DIST=${projectOutput}" -f ${dockerfile} -t ${ecr} .`;
+
+    logger.debug({dockerCommand});
+
+    try {
+      execSync(dockerCommand, { stdio });
+    } catch (error) {
+      logger.error({error, detail: 'docker build failed'});
+    }
 
     await pushImageToECRWrapped({ ecr, profile });
 
