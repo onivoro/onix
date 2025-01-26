@@ -6,7 +6,7 @@ import { extractProjectBuildOutputs } from '../../functions/extract-project-buil
 import { extractProjectBuildAssets } from '../../functions/extract-project-build-assets.function';
 import { join } from 'path';
 import { extractProjectConfiguration } from '../../functions/extract-project-configuration.function';
-import { updateEcsService } from 'onix/src/functions/restart-ecs-service.function';
+import { updateEcsService } from '../../functions/restart-ecs-service.function';
 
 const stdio = 'inherit';
 const uiAssetFolderName = 'ui';
@@ -71,14 +71,14 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
       throw error;
     }
 
-    // restart cluster service by converting this to use '@aws-sdk' instead of cli as shown =>>>>> aws ecs update-service --cluster ${prefix}-cluster --service ${prefix}-service --force-new-deployment --profile ${profile} --region us-east-2`;
-    try {
-      await updateEcsService({ profile, region, cluster, service });
-    } catch (error) {
-      logger.error({ error, detail: 'ECS service update failed' });
-      throw error;
+    if (region && cluster && service) {
+      try {
+        await updateEcsService({ profile, region, cluster, service });
+      } catch (error) {
+        logger.error({ error, detail: 'ECS service update failed' });
+        throw error;
+      }
     }
-
 
     return {
       success: true,
