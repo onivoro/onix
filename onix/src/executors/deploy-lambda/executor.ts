@@ -3,6 +3,7 @@ import { ExecutorSchema } from './schema';
 import { execSync } from 'child_process';
 import { extractProjectBuildOutputs } from '../../functions/extract-project-build-outputs.function';
 import { deployLambda } from '../../functions/deploy-lambda.function';
+import { extractTargetConfiguration } from '../../functions/extract-target-configuration.function';
 
 const stdio = 'inherit';
 
@@ -11,6 +12,10 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
   context: ExecutorContext
 ) => {
   try {
+    if (!extractTargetConfiguration(context)) {
+      return { success: true };
+    }
+
     const { functionName, region, bucket, profile } = options;
     const [apiProjectOutput] = extractProjectBuildOutputs(context, context.projectName);
 
