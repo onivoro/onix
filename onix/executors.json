@@ -20,10 +20,10 @@
       "schema": "./src/executors/deploy-lambda/schema.json",
       "description": "deploy-lambda"
     },
-    "docker-deploy": {
-      "implementation": "./src/executors/deploy/executor",
-      "schema": "./src/executors/deploy/schema.json",
-      "description": "docker-deploy"
+    "deploy-ecs": {
+      "implementation": "./src/executors/deploy-ecs/executor",
+      "schema": "./src/executors/deploy-ecs/schema.json",
+      "description": "deploy-ecs"
     },
     "gen-axios": {
       "implementation": "./src/executors/gen/executor",

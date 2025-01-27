@@ -2,7 +2,7 @@ import { ExecutorContext, PromiseExecutor, logger } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
 import { execSync } from 'child_process';
 import { extractProjectBuildOutputs } from '../../functions/extract-project-build-outputs.function';
-import { deployLambda } from 'onix/src/functions/deploy-lambda.function';
+import { deployLambda } from '../../functions/deploy-lambda.function';
 
 const stdio = 'inherit';
 
