@@ -7,7 +7,6 @@ import { extractProjectBuildAssets } from '../../functions/extract-project-build
 import { join } from 'path';
 import { extractProjectConfiguration } from '../../functions/extract-project-configuration.function';
 import { updateEcsService } from '../../functions/restart-ecs-service.function';
-import { extractTargetConfiguration } from '../../functions/extract-target-configuration.function';
 
 const stdio = 'inherit';
 const uiAssetFolderName = 'ui';
@@ -17,11 +16,6 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
   context: ExecutorContext
 ) => {
   const { ecr, profile, dockerfile, ui, region, cluster, service } = options;
-
-  if (!extractTargetConfiguration(context) || !ecr || !dockerfile) {
-    return { success: true };
-  }
-
 
   execSync(`npx nx build ${context.projectName}`, { stdio });
 
