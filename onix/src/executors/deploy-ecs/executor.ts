@@ -16,11 +16,12 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
   options: ExecutorSchema,
   context: ExecutorContext
 ) => {
-  if (!extractTargetConfiguration(context)) {
+  const { ecr, profile, dockerfile, ui, region, cluster, service } = options;
+
+  if (!extractTargetConfiguration(context) || !ecr || !dockerfile) {
     return { success: true };
   }
 
-  const { ecr, profile, dockerfile, ui, region, cluster, service } = options;
 
   execSync(`npx nx build ${context.projectName}`, { stdio });
 
