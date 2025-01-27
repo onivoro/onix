@@ -1,6 +1,8 @@
 import { ECRClient, GetAuthorizationTokenCommand, ECRClientConfig } from '@aws-sdk/client-ecr';
 import { fromIni } from "@aws-sdk/credential-providers";
+import { logger } from '@nx/devkit';
 import { execSync } from 'child_process';
+import { resolveAwsCredentials } from './resolve-aws-credentials.function';
 
 export interface PushImageConfig {
   region: string;
@@ -16,41 +18,67 @@ export async function pushImageToECR({
   profile
 }: PushImageConfig): Promise<void> {
   try {
-    const config: ECRClientConfig = { region, credentials: profile ? fromIni({ profile }) : undefined };
+    const config: ECRClientConfig = { region, credentials: resolveAwsCredentials(profile) };
     const ecrClient = new ECRClient(config);
 
     const authCommand = new GetAuthorizationTokenCommand({
       registryIds: registryId ? [registryId] : undefined
     });
+
     const authResponse = await ecrClient.send(authCommand);
 
     if (!authResponse.authorizationData?.[0]?.authorizationToken) {
       throw new Error('Failed to get authorization token');
     }
 
-    const authToken = Buffer.from(
-      authResponse.authorizationData[0].authorizationToken,
-      'base64'
-    ).toString('utf-8');
-    const [username, password] = authToken.split(':');
+    let username: string;
+    let password: string;
+    let registryEndpoint: string;
 
-    const registryEndpoint = authResponse.authorizationData[0].proxyEndpoint;
-    if (!registryEndpoint) {
-      throw new Error('Failed to get registry endpoint');
+    try {
+      const authToken = Buffer.from(
+        authResponse.authorizationData[0].authorizationToken,
+        'base64'
+      ).toString('utf-8');
+      const [u, p] = authToken.split(':');
+
+      username = u;
+      password = p;
+
+      registryEndpoint = authResponse.authorizationData[0].proxyEndpoint;
+
+      if (!registryEndpoint) {
+        throw new Error('Failed to get registry endpoint and auth credentials');
+      }
+    } catch (error) {
+      logger.error('Failed to get registry endpoint and auth credentials');
+      throw error;
     }
 
-    execSync('docker login ' +
-      `-u ${username} ` +
-      `-p ${password} ` +
-      registryEndpoint,
-      { stdio: 'inherit' }
-    );
+    try {
+      execSync('docker login ' +
+        `-u ${username} ` +
+        `-p ${password} ` +
+        registryEndpoint,
+        { stdio: 'inherit' }
+      );
+    } catch (error) {
+      throw new Error(`Docker login failed with username "${username}"`);
+    }
 
-    execSync(`docker push ${ecr}`, { stdio: 'inherit' });
+    const pushCommand = `docker push ${ecr}`;
+    try {
+      execSync(pushCommand, { stdio: 'inherit' });
+    } catch (error) {
+      logger.error(`Docker push command failed: ${pushCommand}`);
+      throw error;
+    }
 
     console.log('Successfully pushed image to ECR');
   } catch (error) {
-    console.error('Error pushing image to ECR:', error);
+    logger.error('Error pushing image to ECR:');
+    logger.error(error?.message);
+
     throw error;
   }
 }

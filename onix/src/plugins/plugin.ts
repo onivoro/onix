@@ -7,12 +7,12 @@ import { workspaceDataDirectory } from 'nx/src/utils/cache-directory';
 import { getLockFileName } from '@nx/js';
 import { hashObject } from 'nx/src/hasher/file-hasher';
 import { TOnixPluginOptions } from '../types/onix-plugin-options.type';
-import { readTargetsCache } from '../functions/read-targets-cache.function';
-import { writeTargetsToCache } from '../functions/write-targets-to-cache.function';
+import { readTargetsCache } from '../inference/read-targets-cache.function';
+import { writeTargetsToCache } from '../inference/write-targets-to-cache.function';
 import { TOnixTargets } from '../types/onix-targets.type';
-import { normalizeOptions } from '../functions/normalize-options.function';
+import { normalizeOptions } from '../inference/normalize-options.function';
 import { onixConfigGlob } from '../constants/onix-config-glob.constant';
-import { buildOnixTargets } from '../functions/build-onix-targets.function';
+import { buildOnixTargets } from '../inference/build-onix-targets.function';
 
 export const createDependencies: CreateDependencies = () => [];
 

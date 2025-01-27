@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Deploy Lambda executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "bucket": {
+      "type": "string",
+      "description": "Name of the S3 bucket to use for uploading Lambda artifacts"
+    },
+    "functionName": {
+      "type": "string",
+      "description": "Name to use for lambda. Defaults to context.projectName for clarity"
+    },
+    "profile": {
+      "type": "string",
+      "description": "AWS profile name (which must be defined in the ~/.aws/credentials file) if AWS keys aren't defined as env vars"
+    },
+    "region": {
+      "type": "string",
+      "description": "AWS region for identifying the ECS service to redeploy"
+    }
+  },
+  "required": [
+    "bucket",
+    "region"
+  ]
+}

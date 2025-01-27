@@ -15,6 +15,11 @@
       "schema": "./src/executors/docker/schema.json",
       "description": "docker-run"
     },
+    "deploy-lambda": {
+      "implementation": "./src/executors/deploy-lambda/executor",
+      "schema": "./src/executors/deploy-lambda/schema.json",
+      "description": "deploy-lambda"
+    },
     "docker-deploy": {
       "implementation": "./src/executors/deploy/executor",
       "schema": "./src/executors/deploy/schema.json",

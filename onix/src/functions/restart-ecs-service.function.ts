@@ -1,6 +1,6 @@
-import { ECSClient, UpdateServiceCommand, UpdateServiceCommandInput } from "@aws-sdk/client-ecs";
-import { fromIni } from "@aws-sdk/credential-provider-ini";
+import { ECSClient, UpdateServiceCommand } from "@aws-sdk/client-ecs";
 import { logger } from "@nx/devkit";
+import { resolveAwsCredentials } from "./resolve-aws-credentials.function";
 
 export async function updateEcsService(_: { profile: string, cluster: string, service: string, region: string }) {
     const { profile, cluster, service, region } = _;
@@ -8,7 +8,7 @@ export async function updateEcsService(_: { profile: string, cluster: string, se
     try {
         const client = new ECSClient({
             region,
-            credentials: profile ? fromIni({ profile }) : undefined
+            credentials: resolveAwsCredentials(profile)
         });
 
         const response = await client.send(new UpdateServiceCommand({

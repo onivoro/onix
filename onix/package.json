@@ -1,17 +1,20 @@
 {
   "name": "@onivoro/onix",
-  "version": "20.0.33",
+  "version": "20.0.35",
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "executors": "./executors.json",
   "dependencies": {
-    "@aws-sdk/client-ecs": "^3.734.0",
     "@aws-sdk/client-ecr": "^3.734.0",
+    "@aws-sdk/client-ecs": "^3.734.0",
+    "@aws-sdk/client-lambda": "^3.734.0",
+    "@aws-sdk/client-s3": "^3.735.0",
     "@aws-sdk/credential-providers": "^3.734.0",
     "@nx/devkit": "^20.3.2",
     "@nx/js": "20.3.2",
     "@playwright/test": "^1.50.0",
+    "adm-zip": "^0.5.16",
     "esbuild": "^0.24.2",
     "esbuild-node-externals": "^1.16.0"
   }
