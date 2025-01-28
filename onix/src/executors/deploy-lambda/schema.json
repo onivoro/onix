@@ -20,10 +20,38 @@
     "region": {
       "type": "string",
       "description": "AWS region for identifying the ECS service to redeploy"
+    },
+    "roleArn": {
+      "type": "string",
+      "description": "AWS IAM role ARN the Lambda will assume"
+    },
+    "runtime": {
+      "type": "string",
+      "description": "NodeJS runtime version"
+    },
+    "handler": {
+      "type": "string",
+      "description": "Lambda handler resolution expression. Defaults to main.handler"
+    },
+    "memorySize": {
+      "type": "number",
+      "description": "Lambda allocated memory in MB"
+    },
+    "delayMs": {
+      "type": "number",
+      "description": "Delay in millis to wait after creating the Lambda (hacky)"
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Environment variables structured as an object"
     }
   },
   "required": [
     "bucket",
-    "region"
+    "region",
+    "roleArn"
   ]
 }

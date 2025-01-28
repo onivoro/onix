@@ -12,12 +12,12 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
 ) => {
   try {
 
-    const { functionName, region, bucket, profile } = options;
+    const { functionName, region, bucket, profile, roleArn, environment, memorySize, delayMs, handler, runtime } = options;
     const [apiProjectOutput] = extractProjectBuildOutputs(context, context.projectName);
 
     execSync(`npx nx build ${context.projectName}`, { stdio });
 
-    await deployLambda({ functionName: functionName || context.projectName, sourcePath: apiProjectOutput, region, bucket });
+    await deployLambda({ functionName: functionName || context.projectName, sourcePath: apiProjectOutput, region, bucket, roleArn, profile, environment, memorySize, delayMs, handler, runtime });
 
     return {
       success: true,
