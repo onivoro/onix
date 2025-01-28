@@ -11,7 +11,6 @@ import {
 } from "@aws-sdk/client-lambda";
 import * as AdmZip from 'adm-zip';
 import { resolveAwsCredentials } from "./resolve-aws-credentials.function";
-import { spawnSync } from "child_process";
 
 export interface DeployLambdaConfig {
     bucket: string;
@@ -44,8 +43,6 @@ export async function deployLambda({
 }: DeployLambdaConfig): Promise<void> {
     const s3Client = new S3Client({ region, credentials: resolveAwsCredentials(profile) });
     const lambdaClient = new LambdaClient({ region, credentials: resolveAwsCredentials(profile) });
-
-    spawnSync('npm', [`i`, '--force'], { encoding: 'utf-8', cwd: sourcePath });
 
     const zip = new AdmZip();
     zip.addLocalFolder(sourcePath);

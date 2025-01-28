@@ -16,6 +16,7 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
     const [apiProjectOutput] = extractProjectBuildOutputs(context, context.projectName);
 
     execSync(`npx nx build ${context.projectName}`, { stdio });
+    execSync(`npm i -f`, { stdio, cwd: apiProjectOutput });
 
     await deployLambda({ functionName: functionName || context.projectName, sourcePath: apiProjectOutput, region, bucket, roleArn, profile, environment, memorySize, delayMs, handler, runtime });
 
