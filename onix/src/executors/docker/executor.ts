@@ -1,7 +1,7 @@
 import { ExecutorContext, logger } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
 import { execSync } from 'child_process';
-import { executorFactory } from 'onix/src/functions/executor-factory.function';
+import { executorFactory } from '../../functions/executor-factory.function';
 
 export default executorFactory(async (
   options: ExecutorSchema,
