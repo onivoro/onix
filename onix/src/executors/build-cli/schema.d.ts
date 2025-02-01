@@ -1,3 +1,1 @@
-export interface ExecutorSchema {
-    moniker: string;
-}
+export interface ExecutorSchema {}

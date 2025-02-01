@@ -1,14 +1,9 @@
 {
   "$schema": "https://json-schema.org/schema",
   "version": 2,
-  "title": "Gen executor",
+  "title": "Build-cli executor",
   "description": "",
   "type": "object",
-  "properties": {
-    "moniker": {
-      "type": "string",
-      "description": "Lowercase single-word identifier used to consistently distinguish related projects and libraries"
-    }
-  },
+  "properties": {},
   "required": []
 }
