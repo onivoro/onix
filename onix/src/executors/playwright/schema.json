@@ -1,10 +1,14 @@
 {
   "$schema": "https://json-schema.org/schema",
   "version": 2,
-  "title": "Gen executor",
+  "title": "Playwright executor",
   "description": "",
   "type": "object",
   "properties": {
+    "envFile": {
+      "type": "string",
+      "description": "Path and name of the .env file to load"
+    }
   },
   "required": []
 }

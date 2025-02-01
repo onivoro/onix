@@ -1,31 +1,16 @@
-import { ExecutorContext, logger, PromiseExecutor } from '@nx/devkit';
+import { ExecutorContext } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
 import { execSync } from 'child_process';
-import { loadEnvFile } from 'process';
+import { loadEnvFile } from '../../functions/load-env-file.function';
+import { executorFactory } from '../../functions/executor-factory.function';
 
-const executor: PromiseExecutor<ExecutorSchema> = async (
+export default executorFactory(async (
   options: ExecutorSchema,
   context: ExecutorContext
 ) => {
-  const { envPath, ormConfigPath, runOrRevert } = options;
+  const { envFile, ormConfigPath, runOrRevert } = options;
 
+  loadEnvFile(envFile);
 
-  try {
-    if(envPath) {
-      logger.info(`using "${envPath}"`);
-      loadEnvFile(envPath);
-    }
-
-    execSync(`npm run typeorm -- -d ${ormConfigPath} migration:${runOrRevert} -t=false`, { stdio: 'inherit' });
-
-    return {
-      success: true,
-    };
-  } catch (error) {
-    return {
-      success: false,
-    };
-  }
-};
-
-export default executor;
+  execSync(`npm run typeorm -- -d ${ormConfigPath} migration:${runOrRevert} -t=false`, { stdio: 'inherit' });
+});

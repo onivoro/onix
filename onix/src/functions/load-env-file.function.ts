@@ -2,7 +2,7 @@ import { logger } from "@nx/devkit";
 import { existsSync } from "fs";
 import { loadEnvFile as nodeLoadEnvFile } from "process";
 
-export function loadEnvFile(envFile: string) {
+export function loadEnvFile(envFile?: string | undefined) {
     if (envFile) {
         if(existsSync(envFile)) {
             nodeLoadEnvFile(envFile);

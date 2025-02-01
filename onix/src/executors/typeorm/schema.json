@@ -9,7 +9,7 @@
       "type": "string",
       "description": "TypeORM CLI command: 'run' or 'revert'"
     },
-    "envPath": {
+    "envFile": {
       "type": "string",
       "description": "Path and name of the .env file to load"
     },
@@ -19,6 +19,6 @@
     }
   },
   "required": [
-    "envPath", "ormConfigPath"
+    "envFile", "ormConfigPath"
   ]
 }

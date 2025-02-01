@@ -1,5 +1,5 @@
 export interface ExecutorSchema {
-    envPath: string;
+    envFile: string;
     ormConfigPath: string;
     runOrRevert: 'run' | 'revert';
 }
