@@ -8,9 +8,9 @@ export default executorFactory(async (
   context: ExecutorContext
 ) => {
   const { envFile, ecr, port } = options;
-  const localPort = (Number(port) + 2000);
 
-  const command = `open http://localhost:${localPort} & docker run -p ${localPort}:${port} --env="PORT=${port}" --env-file "${envFile}" "${ecr}"`;
+  const envFileExpression = envFile ? ` --env-file "${envFile}"` : '';
+  const command = `open http://localhost:${port} & docker run -p ${port}:${port} --env="PORT=${port}"${envFileExpression} "${ecr}"`;
 
   logger.info(command);
 

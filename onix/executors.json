@@ -11,8 +11,8 @@
       "description": "typeorm"
     },
     "docker-run": {
-      "implementation": "./src/executors/docker/executor",
-      "schema": "./src/executors/docker/schema.json",
+      "implementation": "./src/executors/docker-run/executor",
+      "schema": "./src/executors/docker-run/schema.json",
       "description": "docker-run"
     },
     "deploy-lambda": {

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/schema",
   "version": 2,
-  "title": "Docker executor",
+  "title": "Docker-run executor",
   "description": "",
   "type": "object",
   "properties": {
@@ -12,10 +12,6 @@
     "ecr": {
       "type": "string",
       "description": "Name of the ECR repository and tag (conventionally separated by a colon)"
-    },
-    "localPort": {
-      "type": "number",
-      "description": "Local port to bind to localhost"
     },
     "port": {
       "type": "number",
