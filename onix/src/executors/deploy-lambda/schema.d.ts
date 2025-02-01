@@ -1,3 +1,3 @@
-import { DeployLambdaConfig } from "onix/src/functions/deploy-lambda.function";
+import { DeployLambdaConfig } from "../../functions/deploy-lambda.function";
 
 export interface ExecutorSchema extends Omit<DeployLambdaConfig, 'sourcePath'> { }
