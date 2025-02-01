@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Openapi-gen executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "flavor": {
+      "type": "string",
+      "description": "Lowercase identifier corresponding to one of the predefined openapi generator target formats. Defaults to 'typescript-axios'."
+    },
+    "openapiJsonPath": {
+      "type": "string",
+      "description": "Path to the openapi definition JSON file (or yml file)."
+    },
+    "outputPath": {
+      "type": "string",
+      "description": "Path where the output of the openapi will be written."
+    }
+  },
+  "required": [
+    "openapiJsonPath",
+    "outputPath"
+  ]
+}

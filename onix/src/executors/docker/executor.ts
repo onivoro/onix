@@ -1,28 +1,18 @@
-import { ExecutorContext, PromiseExecutor, logger } from '@nx/devkit';
+import { ExecutorContext, logger } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
-import { exec, execSync, spawn } from 'child_process';
+import { execSync } from 'child_process';
+import { executorFactory } from 'onix/src/functions/executor-factory.function';
 
-const executor: PromiseExecutor<ExecutorSchema> = async (
+export default executorFactory(async (
   options: ExecutorSchema,
   context: ExecutorContext
 ) => {
-  const { envPath, ecr, port } = options;
+  const { envFile, ecr, port } = options;
   const localPort = (Number(port) + 2000);
-  try {
-    const command = `open http://localhost:${localPort} & docker run -p ${localPort}:${port} --env="PORT=${port}" --env-file "${envPath}" "${ecr}"`;
 
-    logger.info(command);
+  const command = `open http://localhost:${localPort} & docker run -p ${localPort}:${port} --env="PORT=${port}" --env-file "${envFile}" "${ecr}"`;
 
-    execSync(command);
+  logger.info(command);
 
-    return {
-      success: true,
-    };
-  } catch (error) {
-    return {
-      success: false,
-    };
-  }
-};
-
-export default executor;
+  execSync(command);
+});

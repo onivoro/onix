@@ -1,5 +1,6 @@
 export interface ExecutorSchema {
-    envPath: string;
+    envFile: string;
     ecr: string;
+    localPort?: number;
     port: number;
 }

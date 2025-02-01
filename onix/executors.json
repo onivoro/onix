@@ -25,10 +25,10 @@
       "schema": "./src/executors/deploy-ecs/schema.json",
       "description": "deploy-ecs"
     },
-    "gen-axios": {
-      "implementation": "./src/executors/gen/executor",
-      "schema": "./src/executors/gen/schema.json",
-      "description": "gen-axios"
+    "openapi-gen": {
+      "implementation": "./src/executors/openapi-gen/executor",
+      "schema": "./src/executors/openapi-gen/schema.json",
+      "description": "openapi-gen"
     },
     "local": {
       "implementation": "./src/executors/local/executor",
