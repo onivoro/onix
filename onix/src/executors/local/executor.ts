@@ -1,34 +1,27 @@
 import {
   ExecutorContext,
   logger,
-  PromiseExecutor,
 } from '@nx/devkit';
-import { execSync } from 'child_process';
+import { execSync, spawnSync } from 'child_process';
 import { ExecutorSchema } from './schema';
 import { loadEnvFile } from '../../functions/load-env-file.function';
+import { executorFactory } from 'onix/src/functions/executor-factory.function';
 
-const runExecutor: PromiseExecutor<ExecutorSchema> = async (
+export default executorFactory(async (
   options: ExecutorSchema,
   context: ExecutorContext
 ) => {
   const { debugPort, envFile } = options;
 
-  try {
-    loadEnvFile(envFile);
+  loadEnvFile(envFile);
 
-    const inspectStatement = debugPort ? `--port=${debugPort}` : '';
-    const command = `npx nx run ${context.projectName}:serve ${inspectStatement}`;
-    logger.debug(command);
-    execSync(command, { stdio: 'inherit' });
+  const inspectStatement = debugPort ? `--port=${debugPort}` : '';
 
-    return {
-      success: true,
-    };
-  } catch (error) {
-    return {
-      success: false,
-    };
-  }
-}
+  const command = `npx nx run ${context.projectName}:serve ${inspectStatement}`;
 
-export default runExecutor;
+  logger.debug(command);
+
+  const [program, ...args] = command.split(' ');
+
+  spawnSync(program, args, { stdio: 'inherit' });
+});
