@@ -3,6 +3,7 @@ import {
   getProjects, getOutputsForTargetAndConfiguration, getWorkspaceLayout, readProjectConfiguration,
   workspaceLayout,
   readTargetOptions,
+  detectPackageManager,
 
 } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
@@ -15,11 +16,13 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
   try {
     const wl = workspaceLayout();
     const to = readTargetOptions({ project: context.projectName, target: context.targetName }, context);
+    const packageManager = detectPackageManager(context.root);
 
-    await writeFile(`lee-${Date.now()}`, JSON.stringify({
+    await writeFile(`lee-${Date.now()}.json`, JSON.stringify({
       options,
       context,
       workspaceLayout: wl,
+      packageManager,
       targetOptions: to,
     }, null, 2));
 
