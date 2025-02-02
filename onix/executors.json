@@ -35,10 +35,10 @@
       "schema": "./src/executors/local/schema.json",
       "description": "local"
     },
-    "lee": {
-      "implementation": "./src/executors/lee/executor",
-      "schema": "./src/executors/lee/schema.json",
-      "description": "lee"
+    "xray": {
+      "implementation": "./src/executors/xray/executor",
+      "schema": "./src/executors/xray/schema.json",
+      "description": "xray"
     },
     "playwright": {
       "implementation": "./src/executors/playwright/executor",
