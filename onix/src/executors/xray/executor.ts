@@ -3,6 +3,7 @@ import {
   workspaceLayout,
   readTargetOptions,
   detectPackageManager,
+  getPackageManagerCommand
 
 } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
@@ -16,12 +17,14 @@ export default executorFactory(async (
   const wl = workspaceLayout();
   const to = readTargetOptions({ project: context.projectName, target: context.targetName }, context);
   const packageManager = detectPackageManager(context.root);
+  const packageManagerCommand = getPackageManagerCommand(packageManager);
 
   await writeFile(`xray-${Date.now()}.json`, JSON.stringify({
+    packageManager,
+    packageManagerCommand,
     options,
     context,
     workspaceLayout: wl,
-    packageManager,
     targetOptions: to,
   }, null, 2));
 });
