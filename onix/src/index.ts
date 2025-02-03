@@ -17,3 +17,6 @@ export * from './inference/add-serve-targets.function';
 export * from './inference/build-onix-targets.function';
 export * from './inference/read-targets-cache.function';
 export * from './inference/write-targets-to-cache.function';
+
+export * from './webpack/patch-nx-source-map-paths.function';
+export * from './webpack/patch-nx-source-maps.plugin';
