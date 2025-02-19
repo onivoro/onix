@@ -7,6 +7,7 @@ import { extractProjectBuildAssets } from '../../functions/extract-project-build
 import { join } from 'path';
 import { extractProjectConfiguration } from '../../functions/extract-project-configuration.function';
 import { updateEcsService } from '../../functions/restart-ecs-service.function';
+import { pmxSpawn } from '../../functions/pmx.function';
 
 const stdio = 'inherit';
 const uiAssetFolderName = 'ui';
@@ -17,7 +18,7 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
 ) => {
   const { ecr, profile, dockerfile, ui, region, cluster, service } = options;
 
-  execSync(`npx nx build ${context.projectName}`, { stdio });
+  pmxSpawn(context, `nx build ${context.projectName}`);
 
   try {
     const [apiProjectAssetPath] = extractProjectBuildAssets(context, context.projectName);
@@ -28,7 +29,7 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
         const [webProjectOutputs] = extractProjectBuildOutputs(context, ui);
 
         if (webProjectOutputs?.length) {
-          execSync(`npx nx build ${ui}`, { stdio });
+          pmxSpawn(context, `nx build ${ui}`);
 
           const projectConfiguration = extractProjectConfiguration(context, context.projectName);
 

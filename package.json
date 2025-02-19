@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "build": "nx run onix:build --skip-nx-cache",
-    "deploy": "npm run build && cd dist/onix && npm publish --access public --tag latest",
-    "bump": "cd onix && npm version patch"
+    "deploy": "bun run build && cd dist/onix && bun publish --access public --tag latest",
+    "bump": "cd onix && bun version patch"
   },
   "private": true,
   "dependencies": {
