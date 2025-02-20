@@ -12,7 +12,7 @@ export default executorFactory(async (options: ExecutorSchema, context) => {
 
   logger.info(`add a bin entry to root package.json pointing at this executable => ${executableOutputPath} and re-run this if the bin entry hasn't been added yet`);
 
-  const { dlx, exec } = pm(context);
+  const { dlx, run } = pm(context);
 
-  execSync(`${dlx} nx build ${context.projectName} && echo '#! /usr/bin/env node' > ${tempPath} && cat ${executableOutputPath} >> ${tempPath} && mv ${tempPath} ${executableOutputPath} && chmod +x ${executableOutputPath} && ${exec} link`, { stdio: 'inherit'});
+  execSync(`${dlx} nx build ${context.projectName} && echo '#! /usr/bin/env node' > ${tempPath} && cat ${executableOutputPath} >> ${tempPath} && mv ${tempPath} ${executableOutputPath} && chmod +x ${executableOutputPath} && ${run} link`, { stdio: 'inherit'});
 });

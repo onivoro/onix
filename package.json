@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nx run onix:build --skip-nx-cache",
     "deploy": "bun run build && cd dist/onix && bun publish --access public --tag latest",
-    "bump": "cd onix && bun version patch"
+    "bump": "cd onix && npm version patch"
   },
   "private": true,
   "dependencies": {

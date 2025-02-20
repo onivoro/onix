@@ -15,5 +15,5 @@ export default executorFactory(async (
 
   logger.info(`PACKAGE.JSON SHOULD HAVE A SCRIPT NAMED "typeorm" IN ORDER TO USE THIS EXECUTOR`)
 
-  execSync(`${pm(context).exec} run typeorm -- -d ${ormConfigPath} migration:${runOrRevert} -t=false`, { stdio: 'inherit' });
+  execSync(`${pm(context).run} run typeorm -- -d ${ormConfigPath} migration:${runOrRevert} -t=false`, { stdio: 'inherit' });
 });

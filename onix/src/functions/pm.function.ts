@@ -5,11 +5,12 @@ import {
 } from '@nx/devkit';
 
 export function pm(context: ExecutorContext) {
-    const packageManager = detectPackageManager(context.root);
-    return getPackageManagerCommand(packageManager);
+    const run = detectPackageManager(context.root);
+    return {...getPackageManagerCommand(run), run };
 }
 
 // {
+//   "run": "bun | npm" // special customization here
 //   "install": "bun install",
 //   "ciInstall": "bun install --no-cache",
 //   "updateLockFile": "bun install --frozen-lockfile",
