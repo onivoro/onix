@@ -1,4 +1,5 @@
-export { playwrightConfig } from './utils/playwright.config';
+export * from './utils/playwright.config';
+export * from './utils/vite-config-factory';
 
 export * from './types/onix-config.type';
 
