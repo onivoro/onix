@@ -1,14 +1,14 @@
-import { defineConfig, UserConfig } from 'vite';
+import { defineConfig, LibraryFormats, UserConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { parse } from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
-export const viteConfigFactory = (_: { cacheDir: string, tsconfigPath: string, entryRoot?: string, entryFileName?: string, name: string, outDir: string }) => {
-    const { cacheDir, tsconfigPath, entryRoot = 'src', entryFileName = 'index.ts', name, outDir } = _;
-
+export const viteConfigFactory = (_: { cacheDir: string, tsconfigPath: string, entryRoot?: string, entryFileName?: string, name?: string, outDir: string, root: string }) => {
+    const { cacheDir, tsconfigPath, entryRoot = 'src', entryFileName = 'index.ts', name, outDir, root } = _;
+    const baseFormats: LibraryFormats[] = ['es', 'cjs'];
     const { name: fileName } = parse(entryFileName)
     return defineConfig({
-        root: __dirname,
+        root,
         cacheDir,
 
         plugins: [
@@ -37,7 +37,7 @@ export const viteConfigFactory = (_: { cacheDir: string, tsconfigPath: string, e
                 fileName,
                 // Change this to the formats you want to support.
                 // Don't forget to update your package.json as well.
-                formats: ['es', 'cjs'],
+                formats: name ? [...baseFormats, 'umd'] : baseFormats,
             },
             rollupOptions: {
                 // External packages that should not be bundled into your library.
