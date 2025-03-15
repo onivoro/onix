@@ -3,7 +3,9 @@ import dts from 'vite-plugin-dts';
 import { parse } from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
-export const viteConfigFactory = (_: { cacheDir: string, tsconfigPath: string, entryRoot?: string, entryFileName?: string, name?: string, outDir: string, root: string }) => {
+export type TOnixViteConfig = { cacheDir: string, tsconfigPath: string, entryRoot?: string, entryFileName?: string, name?: string, outDir: string, root: string };
+
+export const viteConfigFactory = (_: TOnixViteConfig, overrides: UserConfig = {}) => {
     const { cacheDir, tsconfigPath, entryRoot = 'src', entryFileName = 'index.ts', name, outDir, root } = _;
     const baseFormats: LibraryFormats[] = ['es', 'cjs'];
     const { name: fileName } = parse(entryFileName)
@@ -43,6 +45,7 @@ export const viteConfigFactory = (_: { cacheDir: string, tsconfigPath: string, e
                 // External packages that should not be bundled into your library.
                 external: [],
             },
-        }
+        },
+        ...overrides
     });
 }

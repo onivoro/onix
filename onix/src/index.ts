@@ -1,4 +1,5 @@
 export * from './utils/playwright.config';
+export * from './utils/rspack-config-factory';
 export * from './utils/vite-config-factory';
 
 export * from './types/onix-config.type';
