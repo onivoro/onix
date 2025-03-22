@@ -13,6 +13,10 @@
       "type": "string",
       "description": "Path and name of the Dockerfile"
     },
+    "platform": {
+      "type": "string",
+      "description": "the platform argument for running the Docker build (example 'linux/amd64')"
+    },
     "profile": {
       "type": "string",
       "description": "AWS profile name (which must be defined in the ~/.aws/credentials file) if AWS keys aren't defined as env vars"
@@ -23,7 +27,7 @@
     },
     "cluster": { "type": "string", "description": "AWS cluster for identifying the ECS service to redeploy"},
     "region": { "type": "string", "description": "AWS region for identifying the ECS service to redeploy"},
-    "service": { "type": "string", "description": "AWS service for identifying the ECS service to redeploy"},
+    "service": { "type": "string", "description": "AWS service for identifying the ECS service to redeploy"}
   },
   "required": [
     "ecr",

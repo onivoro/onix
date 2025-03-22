@@ -52,9 +52,9 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
 
     const [projectOutput] = extractProjectBuildOutputs(context, context.projectName);
 
-    logger.warn({ projectOutput });
+    const platformExpression = options.platform ? `--platform ${options.platform}` : '';
 
-    const dockerCommand = `docker build --build-arg="APP_DIST=${projectOutput}" -f ${dockerfile} -t ${ecr} .`;
+    const dockerCommand = `docker build --build-arg="APP_DIST=${projectOutput}" -f ${dockerfile} ${platformExpression} -t ${ecr} .`;
 
     logger.warn({ dockerCommand });
 
