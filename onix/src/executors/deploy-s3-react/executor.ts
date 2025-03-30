@@ -32,7 +32,7 @@ export default executorFactory(async (
   const fileMappings = jsAndCssAssets.map(original => {
     const {name: nameWithHash, ext } = parse(original);
     const [name, hash] = nameWithHash.split(hashDelimiter);
-    const key = `${app}/${version}/${name}.${ext}`;
+    const key = `${app}/${version}/${name}${ext}`;
     const modified = toCdnPath(bucket, region, app, name, ext);
 
     return {
@@ -40,7 +40,7 @@ export default executorFactory(async (
       modified,
       key,
       ext,
-      contentType: (ext === 'js' ? 'text/javascript' : 'text/css') as any
+      contentType: (ext === '.js' ? 'text/javascript' : 'text/css') as any
     };
   });  
 
