@@ -6,9 +6,17 @@ const AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY';
 
 export function resolveAwsCredentials(profile?: string | undefined) {
     if (profile) {
-        logger.warn(`using profile "${profile}"... ensure that ${[AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY].map(_ => `"${_.toLowerCase()}"`).join(' and ')} are lowercase in your ~/.aws/credentials file`);
+        try {
+            logger.warn(`using AWS profile "${profile}"`);
 
-        return fromIni({ profile });
+            const resolved = fromIni({ profile });
+
+            if (resolved) {
+                return resolved;
+            }
+        } catch (error) {
+            logger.warn(`failed to load AWS profile "${profile}"... ensure that ${[AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY].map(_ => `"${_.toLowerCase()}"`).join(' and ')} are lowercase in your ~/.aws/credentials file`);
+        }
     }
 
     if (
