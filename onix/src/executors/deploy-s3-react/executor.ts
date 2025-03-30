@@ -11,6 +11,7 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { resolveAwsCredentials } from '../../functions/resolve-aws-credentials.function';
 
 const hashDelimiter = '-';
+const assetsFolder = 'assets'
 
 export default executorFactory(async (
   options: ExecutorSchema,
@@ -23,7 +24,7 @@ export default executorFactory(async (
 
   pmxSpawn(context, `nx build ${context.projectName}`);
 
-  const assetRoot = resolve(projectOutput, 'assets');
+  const assetRoot = resolve(projectOutput, assetsFolder);
 
   const jsAndCssAssets = await getAssetListFromDirectory(assetRoot);
 
@@ -44,7 +45,7 @@ export default executorFactory(async (
     };
   });  
 
-  let html = fileMappings.reduce((acc, { modified, original }) => acc.replace(original, modified), indexHtml);
+  let html = fileMappings.reduce((acc, { modified, original }) => acc.replace(`/${assetsFolder}/${original}`, modified), indexHtml);
 
   const ACL = omitAcl ? undefined : 'public-read';
 
