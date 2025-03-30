@@ -1,4 +1,4 @@
-import { ExecutorContext } from '@nx/devkit';
+import { ExecutorContext, logger } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
 import { extractProjectBuildOutputs } from '../../functions/extract-project-build-outputs.function';
 import { pmxSpawn } from '../../functions/pmx.function';
@@ -59,6 +59,8 @@ export default executorFactory(async (
       ACL
     }))
   ));
+
+  logger.log(html);
 
 });
 
