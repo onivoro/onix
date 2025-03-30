@@ -33,7 +33,7 @@ export default executorFactory(async (
     const {name: nameWithHash, ext } = parse(original);
     const [name, hash] = nameWithHash.split(hashDelimiter);
     const key = `${app}/${version}/${name}${ext}`;
-    const modified = toCdnPath(bucket, region, app, name, ext);
+    const modified = toCdnPath(bucket, region, key);
 
     return {
       original,
