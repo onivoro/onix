@@ -21,11 +21,11 @@ export default executorFactory(async (
 
   pmxSpawn(context, `nx build ${context.projectName}`);
 
-  const jsAndCssAssets = await getAssetListFromDirectory(projectOutput);
+  const assetRoot = resolve(projectOutput, 'assets');
+
+  const jsAndCssAssets = await getAssetListFromDirectory(assetRoot);
 
   const indexHtml = await getIndexHtmlContent(projectOutput);
-
-  const assetRoot = resolve(projectOutput, 'assets');
 
   const fileMappings = jsAndCssAssets.map(original => {
     const [name, hash, ext] = original.split('.');
