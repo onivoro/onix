@@ -32,11 +32,12 @@ export const viteConfigFactory = (_: TOnixViteConfig, overrides: UserConfig = {}
             outDir,
             reportCompressedSize: true,
             commonjsOptions: { transformMixedEsModules: true },
+            emptyOutDir: true,
             lib: {
                 // Could also be a dictionary or array of multiple entry points.
                 entry: `${entryRoot}/${entryFileName}`,
                 name,
-                fileName,
+                fileName,                
                 // Change this to the formats you want to support.
                 // Don't forget to update your package.json as well.
                 formats: name ? [...baseFormats, 'umd'] : baseFormats,
@@ -44,7 +45,7 @@ export const viteConfigFactory = (_: TOnixViteConfig, overrides: UserConfig = {}
             rollupOptions: {
                 // External packages that should not be bundled into your library.
                 external: [],
-            },
+            },            
         },
         ...overrides
     });
