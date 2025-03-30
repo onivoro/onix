@@ -10,6 +10,8 @@ import { createReadStream } from 'fs';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { resolveAwsCredentials } from '../../functions/resolve-aws-credentials.function';
 
+const hashDelimiter = '-';
+
 export default executorFactory(async (
   options: ExecutorSchema,
   context: ExecutorContext
@@ -28,7 +30,8 @@ export default executorFactory(async (
   const indexHtml = await getIndexHtmlContent(projectOutput);
 
   const fileMappings = jsAndCssAssets.map(original => {
-    const [name, hash, ext] = original.split('.');
+    const {name: nameWithHash, ext } = parse(original);
+    const [name, hash] = nameWithHash.split(hashDelimiter);
     const key = `${app}/${version}/${name}.${ext}`;
     const modified = toCdnPath(bucket, region, app, name, ext);
 
