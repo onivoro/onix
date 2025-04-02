@@ -8,7 +8,7 @@ export async function updateEcsService(_: { profile: string, cluster: string, se
     try {
         const client = new ECSClient({
             region,
-            credentials: resolveAwsCredentials(profile)
+            credentials: await resolveAwsCredentials(profile)
         });
 
         const response = await client.send(new UpdateServiceCommand({

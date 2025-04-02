@@ -41,8 +41,8 @@ export async function deployLambda({
     delayMs = 5000,
     profile,
 }: DeployLambdaConfig): Promise<void> {
-    const s3Client = new S3Client({ region, credentials: resolveAwsCredentials(profile) });
-    const lambdaClient = new LambdaClient({ region, credentials: resolveAwsCredentials(profile) });
+    const s3Client = new S3Client({ region, credentials: await resolveAwsCredentials(profile) });
+    const lambdaClient = new LambdaClient({ region, credentials: await resolveAwsCredentials(profile) });
 
     const zip = new AdmZip();
     zip.addLocalFolder(sourcePath);

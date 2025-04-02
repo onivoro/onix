@@ -43,13 +43,13 @@ export default executorFactory(async (
       ext,
       contentType: (ext === '.js' ? 'text/javascript' : 'text/css') as any
     };
-  });  
+  });
 
   let html = fileMappings.reduce((acc, { modified, original }) => acc.replace(`/${assetsFolder}/${original}`, modified), indexHtml);
 
   const ACL = omitAcl ? undefined : 'public-read';
 
-  const s3Client = new S3Client({ region, credentials: resolveAwsCredentials(profile) });
+  const s3Client = new S3Client({ region, credentials: await resolveAwsCredentials(profile) });
 
   await Promise.all(fileMappings.map(async ({ contentType, original, key }) =>
     await s3Client.send(new PutObjectCommand({
@@ -65,7 +65,7 @@ export default executorFactory(async (
 
 });
 
-async function getAssetListFromDirectory(assetDirectory: string): Promise<string[]> {  
+async function getAssetListFromDirectory(assetDirectory: string): Promise<string[]> {
   const allAssets = await readdir(assetDirectory);
   const assets = allAssets.filter(a => ['.js', '.css'].includes(parse(a).ext));
 

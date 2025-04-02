@@ -18,7 +18,7 @@ export async function pushImageToECR({
   profile
 }: PushImageConfig): Promise<void> {
   try {
-    const config: ECRClientConfig = { region, credentials: resolveAwsCredentials(profile) };
+    const config: ECRClientConfig = { region, credentials: await resolveAwsCredentials(profile) };
     const ecrClient = new ECRClient(config);
 
     const authCommand = new GetAuthorizationTokenCommand({
