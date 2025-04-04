@@ -33,9 +33,9 @@ export default executorFactory(async (
   const indexHtml = await getIndexHtmlContent(projectOutput);
 
   const fileMappings = jsAndCssAssets.map(original => {
-    const { name: nameWithHash, ext } = parse(original);
+    const {name: nameWithHash, ext } = parse(original);
     const [name, hash] = nameWithHash.split(hashDelimiter);
-    const key = `${app}/${version}/${name}${ext}`;
+    const key = asS3AppKey({app, version, name, ext});
     const modified = toCdnPath(bucket, region, key);
 
     return {
@@ -73,4 +73,3 @@ export default executorFactory(async (
     ACL
   }));
 });
-
