@@ -1,10 +1,10 @@
 import { readdir, readFile, stat } from "fs/promises";
-import { join } from "path";
+import { join, resolve } from "path";
 import { getContentType } from "./get-content-type.function";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
-export async function uploadDirectoryToS3(_: { directoryPath: string, bucketName: string, ACL: any }, s3Client: S3Client) {
-    const { directoryPath, bucketName, ACL } = _;
+export async function uploadDirectoryToS3(_: { directoryPath: string, bucketName: string, ACL: any, prefix?: string }, s3Client: S3Client) {
+    const { directoryPath, bucketName, ACL, prefix } = _;
     try {
         const files = await readdir(directoryPath);
 
@@ -17,7 +17,7 @@ export async function uploadDirectoryToS3(_: { directoryPath: string, bucketName
 
                 const params = {
                     Bucket: bucketName,
-                    Key: file,
+                    Key: `${prefix}${file}`,
                     Body: fileContent,
                     ContentType: getContentType(file),
                     ACL
@@ -25,6 +25,8 @@ export async function uploadDirectoryToS3(_: { directoryPath: string, bucketName
 
                 await s3Client.send(new PutObjectCommand(params));
                 console.log(`Successfully uploaded ${file} to ${bucketName}`);
+            } else if (stats.isDirectory()) {
+                await uploadDirectoryToS3({ directoryPath: resolve(directoryPath, filePath), bucketName, ACL, prefix: `${filePath}/` }, s3Client);
             }
         }
 
