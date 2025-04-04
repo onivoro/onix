@@ -68,7 +68,7 @@ export default executorFactory(async (
   await s3Client.send(new PutObjectCommand({
     Bucket: bucket,
     ContentType: 'text/html',
-    Body: indexHtml,
+    Body: html,
     Key: asS3AppKey({ app, version, name: 'index', ext: '.html' }),
     ACL
   }));
