@@ -16,6 +16,10 @@ export * from './functions/load-env-file.function';
 export * from './functions/normalize-output-path.function';
 export * from './functions/pm.function';
 export * from './functions/pmx.function';
+export * from './functions/resolve-aws-credentials.function';
+export * from './functions/restart-ecs-service.function';
+export * from './functions/to-cdn-path.function';
+export * from './functions/upload-directory-to-s3.function';
 
 export * from './inference/add-docker-target.function';
 export * from './inference/add-docker-targets.function';
