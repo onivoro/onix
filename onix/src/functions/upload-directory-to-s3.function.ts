@@ -14,7 +14,8 @@ export async function uploadDirectoryToS3(_: { directoryPath: string, directoryP
             const stats = await stat(filePath);
             if (stats.isFile()) {
                 const fileContent = await readFile(filePath);
-                const Key = `${prefix}${file}`.replace(directoryPathToRemoveFromS3Path, '');
+                const toReplace = `${directoryPathToRemoveFromS3Path}/`.replace('//', '/')
+                const Key = `${prefix}${file}`.replace(toReplace, '');
                 const params = {
                     Bucket: bucketName,
                     Key,
