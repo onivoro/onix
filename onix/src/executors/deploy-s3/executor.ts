@@ -20,5 +20,5 @@ export default executorFactory(async (
 
   const s3Client = new S3Client({ region, credentials: await resolveAwsCredentials(profile) });
 
-  await uploadDirectoryToS3({ directoryPath: projectOutput, bucketName: bucket, ACL }, s3Client);
+  await uploadDirectoryToS3({ directoryPathToRemoveFromS3Path: projectOutput, directoryPath: projectOutput, bucketName: bucket, ACL }, s3Client);
 });

@@ -3,8 +3,8 @@ import { join, resolve } from "path";
 import { getContentType } from "./get-content-type.function";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
-export async function uploadDirectoryToS3(_: { directoryPath: string, bucketName: string, ACL: any, prefix?: string }, s3Client: S3Client) {
-    const { directoryPath, bucketName, ACL, prefix = '' } = _;
+export async function uploadDirectoryToS3(_: { directoryPath: string, directoryPathToRemoveFromS3Path: string, bucketName: string, ACL: any, prefix?: string }, s3Client: S3Client) {
+    const { directoryPath, directoryPathToRemoveFromS3Path, bucketName, ACL, prefix = '' } = _;
     try {
         const files = await readdir(directoryPath);
 
@@ -14,7 +14,7 @@ export async function uploadDirectoryToS3(_: { directoryPath: string, bucketName
             const stats = await stat(filePath);
             if (stats.isFile()) {
                 const fileContent = await readFile(filePath);
-                const Key = `${prefix}${file}`;
+                const Key = `${prefix}${file}`.replace(directoryPathToRemoveFromS3Path, '');
                 const params = {
                     Bucket: bucketName,
                     Key,
@@ -26,7 +26,7 @@ export async function uploadDirectoryToS3(_: { directoryPath: string, bucketName
                 await s3Client.send(new PutObjectCommand(params));
                 console.log(`Successfully uploaded ${file} to ${bucketName} ${Key}`);
             } else if (stats.isDirectory()) {
-                await uploadDirectoryToS3({ directoryPath: resolve(directoryPath, filePath), bucketName, ACL, prefix: `${filePath}/` }, s3Client);
+                await uploadDirectoryToS3({ directoryPathToRemoveFromS3Path, directoryPath: resolve(directoryPath, filePath), bucketName, ACL, prefix: `${filePath}/` }, s3Client);
             }
         }
 
