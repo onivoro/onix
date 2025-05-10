@@ -53,15 +53,18 @@ export default executorFactory(async (
 
   const s3Client = new S3Client({ region, credentials: await resolveAwsCredentials(profile) });
 
-  await Promise.all(fileMappings.map(async ({ contentType, original, key }) =>
+  await Promise.all(fileMappings.map(async ({ contentType, original, key }) => {
+
+    await new Promise(resolve => setTimeout(resolve, 4000));
+
     await s3Client.send(new PutObjectCommand({
       Bucket: bucket,
       ContentType: contentType,
       Body: createReadStream(`${assetRoot}/${original}`, 'utf-8'),
       Key: key,
       ACL
-    }))
-  ));
+    }));
+  }));
 
   logger.log(html);
 

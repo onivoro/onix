@@ -1,0 +1,32 @@
+import { ExecutorContext } from '@nx/devkit';
+import { ExecutorSchema } from './schema';
+import { extractProjectBuildOutputs } from '../../functions/extract-project-build-outputs.function';
+import { pmxSpawn } from '../../functions/pmx.function';
+import { executorFactory } from '../../functions/executor-factory.function';
+import { resolve } from 'path';
+import { S3Client } from '@aws-sdk/client-s3';
+import { resolveAwsCredentials } from '../../functions/resolve-aws-credentials.function';
+import { s3SyncDirectory } from '../../functions/s3-sync-directory.function';
+
+const assetsFolder = 'assets'
+
+export default executorFactory(async (
+  options: ExecutorSchema,
+  context: ExecutorContext
+) => {
+  const { region, bucket, omitAcl, profile, localDirectory } = options;
+  const [projectOutput] = extractProjectBuildOutputs(context, context.projectName);
+
+  const app = context.projectName;
+
+  pmxSpawn(context, `nx build ${app}`);
+
+  const resolvedLocalDirectory = resolve(projectOutput, localDirectory);
+
+  const ACL = omitAcl ? undefined : 'public-read';
+
+  const s3Client = new S3Client({ region, credentials: await resolveAwsCredentials(profile) });
+
+  await s3SyncDirectory({s3Client, bucket, localDirectory: resolvedLocalDirectory, ACL });
+});
+

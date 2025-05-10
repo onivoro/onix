@@ -35,6 +35,11 @@
       "schema": "./src/executors/deploy-s3-react/schema.json",
       "description": "deploy-s3-react"
     },
+    "deploy-s3-sync": {
+      "implementation": "./src/executors/deploy-s3-sync/executor",
+      "schema": "./src/executors/deploy-s3-sync/schema.json",
+      "description": "deploy-s3-sync"
+    },
     "deploy-s3-vite": {
       "implementation": "./src/executors/deploy-s3-vite/executor",
       "schema": "./src/executors/deploy-s3-vite/schema.json",

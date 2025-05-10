@@ -18,6 +18,7 @@ export * from './functions/pm.function';
 export * from './functions/pmx.function';
 export * from './functions/resolve-aws-credentials.function';
 export * from './functions/restart-ecs-service.function';
+export * from './functions/s3-sync-directory.function';
 export * from './functions/to-cdn-path.function';
 export * from './functions/upload-directory-to-s3.function';
 
