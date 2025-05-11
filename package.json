@@ -9,6 +9,7 @@
   },
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-cloudfront": "^3.782.0",
     "@aws-sdk/client-ecr": "^3.782.0",
     "@aws-sdk/client-ecs": "^3.782.0",
     "@aws-sdk/client-lambda": "^3.782.0",

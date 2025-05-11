@@ -1,4 +1,4 @@
-import { ExecutorContext } from '@nx/devkit';
+import { ExecutorContext, logger } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
 import { extractProjectBuildOutputs } from '../../functions/extract-project-build-outputs.function';
 import { pmxSpawn } from '../../functions/pmx.function';
@@ -7,14 +7,14 @@ import { resolve } from 'path';
 import { S3Client } from '@aws-sdk/client-s3';
 import { resolveAwsCredentials } from '../../functions/resolve-aws-credentials.function';
 import { s3SyncDirectory } from '../../functions/s3-sync-directory.function';
-
-const assetsFolder = 'assets'
+import { CloudFrontClient } from '@aws-sdk/client-cloudfront'
+import { invalidateCloudFront } from '../../functions/invalidate-cloud-front.function';
 
 export default executorFactory(async (
   options: ExecutorSchema,
   context: ExecutorContext
 ) => {
-  const { region, bucket, omitAcl, profile, localDirectory } = options;
+  const { region, bucket, omitAcl, profile, localDirectory, cloudFrontId } = options;
   const [projectOutput] = extractProjectBuildOutputs(context, context.projectName);
 
   const app = context.projectName;
@@ -27,6 +27,12 @@ export default executorFactory(async (
 
   const s3Client = new S3Client({ region, credentials: await resolveAwsCredentials(profile) });
 
-  await s3SyncDirectory({s3Client, bucket, localDirectory: resolvedLocalDirectory, ACL });
+  await s3SyncDirectory({ s3Client, bucket, localDirectory: resolvedLocalDirectory, ACL });
+
+  if (cloudFrontId) {
+    const cloudfrontClient = new CloudFrontClient({ region, credentials: await resolveAwsCredentials(profile) });
+    await invalidateCloudFront(cloudfrontClient, cloudFrontId);
+    logger.info(`Invalidated CloudFront distribution ${cloudFrontId}`);
+  }
 });
 

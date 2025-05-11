@@ -4,4 +4,5 @@ export interface ExecutorSchema {
     omitAcl?: boolean,
     profile?: string,
     localDirectory: string,
+    cloudFrontId?: string,
 }

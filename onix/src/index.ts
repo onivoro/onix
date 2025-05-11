@@ -12,6 +12,7 @@ export * from './functions/extract-project-build-outputs.function';
 export * from './functions/extract-project-configuration.function';
 export * from './functions/get-asset-list-from-directory.function';
 export * from './functions/get-index-html-content.function';
+export * from './functions/invalidate-cloud-front.function';
 export * from './functions/load-env-file.function';
 export * from './functions/normalize-output-path.function';
 export * from './functions/pm.function';

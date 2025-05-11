@@ -24,6 +24,10 @@
     "localDirectory": {
       "type": "string",
       "description": "Local directory to upload to S3"
+    },
+    "cloudFrontId": {
+      "type": "string",
+      "description": "CloudFront distribution ID for invalidation"
     }
   },
   "required": [
