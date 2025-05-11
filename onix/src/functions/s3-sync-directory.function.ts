@@ -1,4 +1,4 @@
-import { ObjectCannedACL, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { ObjectCannedACL, PutObjectCommand, S3Client, ListObjectsV2Command, DeleteObjectsCommand } from '@aws-sdk/client-s3';
 import { logger } from '@nx/devkit';
 import { readdir, stat, readFile } from 'fs/promises';
 import { join, relative, posix } from 'path';
@@ -9,14 +9,49 @@ export async function s3SyncDirectory({
   bucket,
   localDirectory,
   s3Prefix = '',
-  ACL
+  ACL,
+  emptyDirectory = false
 }: {
   s3Client: S3Client,
   bucket: string,
   localDirectory: string,
   s3Prefix?: string,
-  ACL?: ObjectCannedACL
+  ACL?: ObjectCannedACL,
+  emptyDirectory?: boolean
 }) {
+  if (emptyDirectory) {
+    logger.info(`Emptying directory s3://${bucket}/${s3Prefix}`);
+    const listCommand = new ListObjectsV2Command({
+      Bucket: bucket,
+      Prefix: s3Prefix
+    });
+
+    let isTruncated = true;
+    let continuationToken: string | undefined;
+
+    while (isTruncated) {
+      const listResponse = await s3Client.send(listCommand);
+
+      if (listResponse.Contents && listResponse.Contents.length > 0) {
+        const deleteCommand = new DeleteObjectsCommand({
+          Bucket: bucket,
+          Delete: {
+            Objects: listResponse.Contents.map(({ Key }) => ({ Key }))
+          }
+        });
+
+        await s3Client.send(deleteCommand);
+        logger.info(`Deleted ${listResponse.Contents.length} objects`);
+      }
+
+      isTruncated = !!listResponse.IsTruncated;
+      continuationToken = listResponse.NextContinuationToken;
+      if (continuationToken) {
+        listCommand.input.ContinuationToken = continuationToken;
+      }
+    }
+  }
+
   async function walk(dir: string): Promise<string[]> {
     const entries = await readdir(dir, { withFileTypes: true });
     const files = await Promise.all(entries.map(async entry => {
