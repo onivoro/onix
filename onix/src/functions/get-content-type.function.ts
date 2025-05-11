@@ -6,6 +6,7 @@ export function getContentType(filename: string) {
         case '.txt': return 'text/plain';
         case '.html': return 'text/html';
         case '.css': return 'text/css';
+        case '.svg': return 'image/svg+xml';
         case '.js': return 'application/javascript';
         case '.json': return 'application/json';
         case '.png': return 'image/png';
