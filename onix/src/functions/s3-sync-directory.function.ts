@@ -2,6 +2,7 @@ import { ObjectCannedACL, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { logger } from '@nx/devkit';
 import { readdir, stat, readFile } from 'fs/promises';
 import { join, relative, posix } from 'path';
+import { getContentType } from './get-content-type.function';
 
 export async function s3SyncDirectory({
   s3Client,
@@ -37,7 +38,8 @@ export async function s3SyncDirectory({
       Bucket: bucket,
       Key: key,
       Body: fileContent,
-      ACL
+      ACL,
+      ContentType: getContentType(filePath)
     }));
 
     logger.info(`Uploaded ${filePath} to s3://${bucket}/${key}`);
