@@ -30,7 +30,7 @@ export default executorFactory(async (
   await s3SyncDirectory({ s3Client, bucket, localDirectory: resolvedLocalDirectory, ACL });
 
   if (cloudFrontId) {
-    const cloudfrontClient = new CloudFrontClient({ region, credentials: await resolveAwsCredentials(profile) });
+    const cloudfrontClient = new CloudFrontClient({ credentials: await resolveAwsCredentials(profile) });
     await invalidateCloudFront(cloudfrontClient, cloudFrontId);
     logger.info(`Invalidated CloudFront distribution ${cloudFrontId}`);
   }
