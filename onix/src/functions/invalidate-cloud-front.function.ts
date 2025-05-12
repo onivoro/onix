@@ -1,6 +1,7 @@
 import { CloudFrontClient, CreateInvalidationCommand } from "@aws-sdk/client-cloudfront";
+import { logger } from "@nx/devkit";
 
-export async function invalidateCloudFront(cloudfront: CloudFrontClient, distributionId: string, paths: string[] = ['*']) {
+export async function invalidateCloudFront(cloudfront: CloudFrontClient, distributionId: string, paths: string[] = ['/*']) {
     const command = new CreateInvalidationCommand({
         DistributionId: distributionId,
         InvalidationBatch: {
@@ -11,6 +12,8 @@ export async function invalidateCloudFront(cloudfront: CloudFrontClient, distrib
             }
         }
     });
+
+    logger.info(`Invalidating CloudFront distribution ${distributionId} for paths: ${paths.join(', ')}`);
 
     return await cloudfront.send(command);
 }

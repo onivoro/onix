@@ -1,6 +1,6 @@
 {
   "name": "@onivoro/onix",
-  "version": "20.5.27",
+  "version": "20.5.29",
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",

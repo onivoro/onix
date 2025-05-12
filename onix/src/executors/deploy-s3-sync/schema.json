@@ -28,6 +28,11 @@
     "cloudFrontId": {
       "type": "string",
       "description": "CloudFront distribution ID for invalidation"
+    },
+    "cloudFrontRegion": {
+      "type": "string",
+      "description": "CloudFront region",
+      "default": "us-east-1"
     }
   },
   "required": [

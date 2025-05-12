@@ -5,4 +5,5 @@ export interface ExecutorSchema {
     profile?: string,
     localDirectory: string,
     cloudFrontId?: string,
+    cloudFrontRegion?: string,
 }
