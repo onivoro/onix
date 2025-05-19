@@ -4,11 +4,14 @@ import {
 } from '@nx/devkit';
 import { execSync, spawnSync } from 'child_process';
 import { pm } from './pm.function';
+import { objectToEnvExports } from './object-to-env-exports.function';
 
-export function pmxSpawn(context: ExecutorContext, command: string) {
+export function pmxSpawn(context: ExecutorContext, command: string, env: Record<string, any> = {}) {
     const { dlx } = pm(context);
 
-    const completeCommand = `${dlx} ${command}`;
+    const envLiteral = objectToEnvExports(env);
+
+    const completeCommand = `${envLiteral} ${dlx} ${command}`;
 
     logger.info(completeCommand);
 

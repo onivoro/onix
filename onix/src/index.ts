@@ -6,6 +6,7 @@ export * from './types/onix-config.type';
 
 export * from './plugins/plugin';
 
+export * from './functions/object-to-env-exports.function';
 export * from './functions/as-s3-app-key.function';
 export * from './functions/executor-factory.function';
 export * from './functions/extract-project-build-outputs.function';

@@ -14,12 +14,12 @@ export default executorFactory(async (
   options: ExecutorSchema,
   context: ExecutorContext
 ) => {
-  const { region, bucket, omitAcl, profile, localDirectory, cloudFrontId, cloudFrontRegion } = options;
+  const { region, bucket, omitAcl, profile, localDirectory = '', cloudFrontId, cloudFrontRegion, env } = options;
   const [projectOutput] = extractProjectBuildOutputs(context, context.projectName);
 
   const app = context.projectName;
 
-  pmxSpawn(context, `nx build ${app}`);
+  pmxSpawn(context, `nx build ${app}`, env);
 
   const resolvedLocalDirectory = resolve(projectOutput, localDirectory);
 

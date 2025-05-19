@@ -33,11 +33,14 @@
       "type": "string",
       "description": "CloudFront region",
       "default": "us-east-1"
+    },
+    "env": {
+      "type": "object",
+      "description": "object that provides keys and values to load as environment variables"
     }
   },
   "required": [
     "bucket",
-    "localDirectory",
     "region"
   ]
 }

@@ -3,7 +3,8 @@ export interface ExecutorSchema {
     region: string,
     omitAcl?: boolean,
     profile?: string,
-    localDirectory: string,
+    localDirectory?: string,
     cloudFrontId?: string,
     cloudFrontRegion?: string,
+    env?: Record<string, any>;
 }
