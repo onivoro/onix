@@ -18,7 +18,7 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
 ) => {
   const { ecr, profile, dockerfile, ui, region, cluster, service } = options;
 
-  pmxSpawn(context, `nx build ${context.projectName}`);
+  pmxSpawn(context, `nx build ${context.projectName}`, {NODE_ENV: 'production'});
 
   try {
     const [apiProjectAssetPath] = extractProjectBuildAssets(context, context.projectName);
