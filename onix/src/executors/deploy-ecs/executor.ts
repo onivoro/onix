@@ -29,7 +29,7 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
         const [webProjectOutputs] = extractProjectBuildOutputs(context, ui);
 
         if (webProjectOutputs?.length) {
-          pmxSpawn(context, `nx build ${ui}`);
+          pmxSpawn(context, `nx build ${ui}`, {NODE_ENV: 'production'});
 
           const projectConfiguration = extractProjectConfiguration(context, context.projectName);
 
