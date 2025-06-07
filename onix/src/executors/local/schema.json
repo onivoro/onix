@@ -14,14 +14,22 @@
       "description": "Path and name of the .env file to load"
     },
     "copyFromS3": {
-      "profile": {
-        "type": "string"
+      "type": "object",
+      "description": "Configuration for copying files from S3",
+      "properties": {
+        "profile": {
+          "type": "string",
+          "description": "AWS profile to use"
+        },
+        "files": {
+          "type": "object",
+          "description": "Object mapping S3 keys to local file paths",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
       },
-      "files": {
-        "type": "object",
-        "description": "Configuration for copying files from S3",
-        "additionalProperties": true
-      }
+      "required": ["profile", "files"]
     }
   },
   "required": []
