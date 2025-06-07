@@ -1,5 +1,4 @@
 import { ECRClient, GetAuthorizationTokenCommand, ECRClientConfig } from '@aws-sdk/client-ecr';
-import { fromIni } from "@aws-sdk/credential-providers";
 import { logger } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { resolveAwsCredentials } from './resolve-aws-credentials.function';

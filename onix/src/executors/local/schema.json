@@ -12,6 +12,16 @@
     "envFile": {
       "type": "string",
       "description": "Path and name of the .env file to load"
+    },
+    "copyFromS3": {
+      "profile": {
+        "type": "string"
+      },
+      "files": {
+        "type": "object",
+        "description": "Configuration for copying files from S3",
+        "additionalProperties": true
+      }
     }
   },
   "required": []
