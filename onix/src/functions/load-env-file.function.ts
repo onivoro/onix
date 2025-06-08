@@ -1,6 +1,6 @@
 import { logger } from "@nx/devkit";
-import { existsSync } from "fs";
-import { loadEnvFile as nodeLoadEnvFile } from "process";
+import { existsSync, readFileSync } from "fs";
+import { parseEnv } from "util";
 
 const dotLocal = '.local';
 
@@ -18,4 +18,9 @@ export function loadEnvFile(envFile?: string | undefined) {
             logger.warn(`optionally define environment variables in a file named "${envFile}"`);
         }
     }
+}
+
+function nodeLoadEnvFile(envFile: string) {
+    const overrides = parseEnv(readFileSync(envFile, 'utf8'));
+    Object.assign(process.env, overrides);
 }
