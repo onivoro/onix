@@ -11,7 +11,7 @@ export function pmxSpawn(context: ExecutorContext, command: string, env: Record<
 
     const envLiteral = objectToEnvExports(env);
 
-    const completeCommand = `${envLiteral} ${dlx} ${command}`.trim();
+    const completeCommand = `${envLiteral ? (envLiteral + ' && ') : ''} ${dlx} ${command}`.trim();
 
     logger.info(completeCommand);
 
