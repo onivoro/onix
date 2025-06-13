@@ -8,6 +8,7 @@ import { join } from 'path';
 import { extractProjectConfiguration } from '../../functions/extract-project-configuration.function';
 import { updateEcsService } from '../../functions/restart-ecs-service.function';
 import { pmxSpawn } from '../../functions/pmx.function';
+import { existsSync } from 'fs';
 
 const stdio = 'inherit';
 const uiAssetFolderName = 'ui';
@@ -39,6 +40,11 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
           const projectDistAssetPathForUi = join(projectDist, projectConfiguration.root, projectAssetsPath, uiAssetFolderName);
 
           [webProjectOutputs].forEach(output => {
+            if (!existsSync(output)) {
+              throw new Error(`Build output directory does not exist: ${output}. The UI build may have failed.`);
+            }
+            
+            logger.info(`Copying UI build output from ${output} to ${projectDistAssetPathForUi}`);
             execSync(`cp -R ${output} ${projectDistAssetPathForUi}`);
           });
 

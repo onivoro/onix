@@ -17,7 +17,17 @@ export function pmxSpawn(context: ExecutorContext, command: string, env: Record<
 
     const [program, ...args] = completeCommand.trim().split(' ');
 
-    spawnSync(program, args, { stdio: 'inherit', env });
+    const result = spawnSync(program, args, { stdio: 'inherit', env });
+    
+    if (result.error) {
+        throw new Error(`Command failed: ${completeCommand}. Error: ${result.error.message}`);
+    }
+    
+    if (result.status !== 0) {
+        throw new Error(`Command failed with exit code ${result.status}: ${completeCommand}`);
+    }
+    
+    return result;
     // execSync(completeCommand, {stdio: 'inherit', env});
 }
 
