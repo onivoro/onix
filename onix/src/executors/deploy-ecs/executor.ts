@@ -47,7 +47,7 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
               });
 
               resolve(null);
-            }, 0);
+            }, 10_000);
           })
 
         } else {

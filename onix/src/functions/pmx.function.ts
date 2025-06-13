@@ -17,8 +17,8 @@ export function pmxSpawn(context: ExecutorContext, command: string, env: Record<
 
     const [program, ...args] = completeCommand.trim().split(' ');
 
-    // spawnSync(program, args, { stdio: 'inherit', env });
-    execSync(completeCommand, {stdio: 'inherit', env});
+    spawnSync(program, args, { stdio: 'inherit', env });
+    // execSync(completeCommand, {stdio: 'inherit', env});
 }
 
 export function pmxExec(context: ExecutorContext, command: string) {
