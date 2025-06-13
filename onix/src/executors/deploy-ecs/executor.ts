@@ -18,7 +18,7 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
 ) => {
   const { ecr, profile, dockerfile, ui, region, cluster, service } = options;
 
-  pmxSpawn(context, `nx build ${context.projectName}`, {NODE_ENV: 'production'});
+  pmxSpawn(context, `nx build ${context.projectName}`, { NODE_ENV: 'production' });
 
   try {
     const [apiProjectAssetPath] = extractProjectBuildAssets(context, context.projectName);
@@ -29,18 +29,26 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
         const [webProjectOutputs] = extractProjectBuildOutputs(context, ui);
 
         if (webProjectOutputs?.length) {
-          pmxSpawn(context, `nx build ${ui}`, {NODE_ENV: 'production'});
+          pmxSpawn(context, `nx build ${ui}`, { NODE_ENV: 'production' });
 
-          const projectConfiguration = extractProjectConfiguration(context, context.projectName);
+          await new Promise((resolve, reject) => {
 
-          const [projectDist] = apiProjectOutput.split(projectConfiguration.root);
-          const [__, projectAssetsPath] = apiProjectAssetPath.split(projectConfiguration.sourceRoot);
 
-          const projectDistAssetPathForUi = join(projectDist, projectConfiguration.root, projectAssetsPath, uiAssetFolderName);
+            const projectConfiguration = extractProjectConfiguration(context, context.projectName);
 
-          [webProjectOutputs].forEach(output => {
-            execSync(`cp -R ${output} ${projectDistAssetPathForUi}`);
-          });
+            const [projectDist] = apiProjectOutput.split(projectConfiguration.root);
+            const [__, projectAssetsPath] = apiProjectAssetPath.split(projectConfiguration.sourceRoot);
+
+            const projectDistAssetPathForUi = join(projectDist, projectConfiguration.root, projectAssetsPath, uiAssetFolderName);
+
+            setTimeout(() => {
+              [webProjectOutputs].forEach(output => {
+                execSync(`cp -R ${output} ${projectDistAssetPathForUi}`);
+              });
+
+              resolve(null);
+            }, 0);
+          })
 
         } else {
           logger.warn(`unable to locate target "build" outputs within project configuration for specified webProjectName "${ui}"`);
