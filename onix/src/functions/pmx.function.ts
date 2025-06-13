@@ -15,20 +15,15 @@ export function pmxSpawn(context: ExecutorContext, command: string, env: Record<
 
     logger.info(completeCommand);
 
-    const [program, ...args] = completeCommand.trim().split(' ');
-
-    const result = spawnSync(program, args, { stdio: 'inherit', env });
-    
-    if (result.error) {
-        throw new Error(`Command failed: ${completeCommand}. Error: ${result.error.message}`);
+    try {
+        // Use execSync instead of spawnSync for better shell command support
+        execSync(completeCommand, {
+            stdio: 'inherit',
+            env: { ...process.env, ...env }
+        });
+    } catch (error) {
+        throw new Error(`Command failed: ${completeCommand}. Error: ${error.message}`);
     }
-    
-    if (result.status !== 0) {
-        throw new Error(`Command failed with exit code ${result.status}: ${completeCommand}`);
-    }
-    
-    return result;
-    // execSync(completeCommand, {stdio: 'inherit', env});
 }
 
 export function pmxExec(context: ExecutorContext, command: string) {

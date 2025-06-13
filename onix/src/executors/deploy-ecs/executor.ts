@@ -43,7 +43,7 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
             if (!existsSync(output)) {
               throw new Error(`Build output directory does not exist: ${output}. The UI build may have failed.`);
             }
-            
+
             logger.info(`Copying UI build output from ${output} to ${projectDistAssetPathForUi}`);
             execSync(`cp -R ${output} ${projectDistAssetPathForUi}`);
           });
