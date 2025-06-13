@@ -31,24 +31,16 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
         if (webProjectOutputs?.length) {
           pmxSpawn(context, `nx build ${ui}`, { NODE_ENV: 'production' });
 
-          await new Promise((resolve, reject) => {
+          const projectConfiguration = extractProjectConfiguration(context, context.projectName);
 
+          const [projectDist] = apiProjectOutput.split(projectConfiguration.root);
+          const [__, projectAssetsPath] = apiProjectAssetPath.split(projectConfiguration.sourceRoot);
 
-            const projectConfiguration = extractProjectConfiguration(context, context.projectName);
+          const projectDistAssetPathForUi = join(projectDist, projectConfiguration.root, projectAssetsPath, uiAssetFolderName);
 
-            const [projectDist] = apiProjectOutput.split(projectConfiguration.root);
-            const [__, projectAssetsPath] = apiProjectAssetPath.split(projectConfiguration.sourceRoot);
-
-            const projectDistAssetPathForUi = join(projectDist, projectConfiguration.root, projectAssetsPath, uiAssetFolderName);
-
-            setTimeout(() => {
-              [webProjectOutputs].forEach(output => {
-                execSync(`cp -R ${output} ${projectDistAssetPathForUi}`);
-              });
-
-              resolve(null);
-            }, 10_000);
-          })
+          [webProjectOutputs].forEach(output => {
+            execSync(`cp -R ${output} ${projectDistAssetPathForUi}`);
+          });
 
         } else {
           logger.warn(`unable to locate target "build" outputs within project configuration for specified webProjectName "${ui}"`);
