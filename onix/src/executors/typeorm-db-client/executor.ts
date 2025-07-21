@@ -82,29 +82,54 @@ export default executorFactory(async (
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
-    // Routes
+    // Routes with error handling
     app.get('/', (req, res) => {
-      res.send(getDatabaseClientUI());
+      try {
+        res.send(getDatabaseClientUI());
+      } catch (error) {
+        logger.error(`Error serving UI: ${error.message}`);
+        res.status(500).send('Internal Server Error');
+      }
     });
 
     app.get('/api/tables', async (req, res) => {
-      const tablesHtml = await getTables(dataSource);
-      res.send(tablesHtml);
+      try {
+        const tablesHtml = await getTables(dataSource);
+        res.send(tablesHtml);
+      } catch (error) {
+        logger.error(`Error fetching tables: ${error.message}`);
+        res.status(500).send(`<div class="error">Error loading tables: ${error.message}</div>`);
+      }
     });
 
     app.get('/api/table/:tableName', async (req, res) => {
-      const tableDataHtml = await getTableData(dataSource, req.params.tableName);
-      res.send(tableDataHtml);
+      try {
+        const tableDataHtml = await getTableData(dataSource, req.params.tableName);
+        res.send(tableDataHtml);
+      } catch (error) {
+        logger.error(`Error fetching table data: ${error.message}`);
+        res.status(500).send(`<div class="error">Error loading table data: ${error.message}</div>`);
+      }
     });
 
     app.get('/api/table/:tableName/structure', async (req, res) => {
-      const structureHtml = await getTableStructure(dataSource, req.params.tableName);
-      res.send(structureHtml);
+      try {
+        const structureHtml = await getTableStructure(dataSource, req.params.tableName);
+        res.send(structureHtml);
+      } catch (error) {
+        logger.error(`Error fetching table structure: ${error.message}`);
+        res.status(500).send(`<div class="error">Error loading table structure: ${error.message}</div>`);
+      }
     });
 
     app.post('/api/query', async (req, res) => {
-      const queryResultHtml = await executeQuery(dataSource, req.body.query);
-      res.send(queryResultHtml);
+      try {
+        const queryResultHtml = await executeQuery(dataSource, req.body.query);
+        res.send(queryResultHtml);
+      } catch (error) {
+        logger.error(`Error executing query: ${error.message}`);
+        res.status(500).send(`<div class="error">Query error: ${error.message}</div>`);
+      }
     });
 
     const server = app.listen(3000, () => {
@@ -113,18 +138,52 @@ export default executorFactory(async (
 
     // Keep the process running indefinitely
     const keepRunning = new Promise<void>((resolve) => {
-      process.on('SIGINT', async () => {
-        logger.info('Shutting down database client...');
-        server.close();
-        await dataSource.destroy();
-        resolve();
+      const gracefulShutdown = async (signal: string) => {
+        logger.info(`Received ${signal}, shutting down database client gracefully...`);
+
+        try {
+          // Close the HTTP server first (stop accepting new requests)
+          await new Promise<void>((resolve, reject) => {
+            server.close((err) => {
+              if (err) {
+                logger.error(`Error closing HTTP server: ${err.message}`);
+                reject(err);
+              } else {
+                logger.info('HTTP server closed successfully');
+                resolve();
+              }
+            });
+          });
+
+          // Close database connections
+          if (dataSource && dataSource.isInitialized) {
+            await dataSource.destroy();
+            logger.info('Database connection closed successfully');
+          }
+
+          logger.info('Graceful shutdown completed');
+          resolve();
+        } catch (error) {
+          logger.error(`Error during graceful shutdown: ${error.message}`);
+          resolve(); // Still resolve to exit the process
+        }
+      };
+
+      process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+      process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+
+      // Handle uncaught exceptions
+      process.on('uncaughtException', async (error) => {
+        logger.error(`Uncaught exception: ${error.message}`);
+        await gracefulShutdown('uncaughtException');
+        process.exit(1);
       });
 
-      process.on('SIGTERM', async () => {
-        logger.info('Shutting down database client...');
-        server.close();
-        await dataSource.destroy();
-        resolve();
+      // Handle unhandled promise rejections
+      process.on('unhandledRejection', async (reason, promise) => {
+        logger.error(`Unhandled rejection at: ${promise}, reason: ${reason}`);
+        await gracefulShutdown('unhandledRejection');
+        process.exit(1);
       });
     });
 
