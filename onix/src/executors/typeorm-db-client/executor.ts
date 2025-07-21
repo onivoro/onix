@@ -111,13 +111,25 @@ export default executorFactory(async (
       logger.info('Database client UI available at http://localhost:3000');
     });
 
-    // Keep the process running
-    process.on('SIGINT', async () => {
-      logger.info('Shutting down database client...');
-      server.close();
-      await dataSource.destroy();
-      process.exit(0);
+    // Keep the process running indefinitely
+    const keepRunning = new Promise<void>((resolve) => {
+      process.on('SIGINT', async () => {
+        logger.info('Shutting down database client...');
+        server.close();
+        await dataSource.destroy();
+        resolve();
+      });
+
+      process.on('SIGTERM', async () => {
+        logger.info('Shutting down database client...');
+        server.close();
+        await dataSource.destroy();
+        resolve();
+      });
     });
+
+    // Wait indefinitely until process is terminated
+    await keepRunning;
 
   } catch (error) {
     logger.error('Failed to connect to database: ' + error.message);
