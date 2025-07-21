@@ -1,4 +1,10 @@
 export interface ExecutorSchema {
-    envFile: string;
-    ormConfigPath: string;
+    envFile?: string;
+    host?: string;
+    port?: number;
+    username?: string;
+    password?: string;
+    database?: string;
+    type?: string;
+    ssl?: boolean;
 }

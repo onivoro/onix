@@ -4,20 +4,74 @@ import { loadEnvFile } from '../../functions/load-env-file.function';
 import { executorFactory } from '../../functions/executor-factory.function';
 import { $html, $head, $title, $meta, $script, $style, $body, $div, $h1, $h3, $textarea, $button, $table, $thead, $tbody, $tr, $th, $td, $p, $em } from '@onivoro/server-html';
 import { DataSource } from 'typeorm';
-import { join } from 'path';
+import { join, dirname } from 'path';
 import * as express from 'express';
 
 export default executorFactory(async (
   options: ExecutorSchema,
   context: ExecutorContext
 ) => {
-  const { envFile, ormConfigPath } = options;
+  const {
+    envFile = '/Users/leenorris/github.com/silvertek-us/silvertek/.env.colleran.collerancompanies.com',
+    host = 'PG_HOST',
+    database = 'PG_DB',
+    password = 'PG_PASSWORD',
+    port = 'PG_PORT',
+    username = 'PG_USER',
+    type = 'postgres'
+  } = options || {};
 
-  loadEnvFile(envFile);
+  // Load environment file if provided
+  if (envFile) {
+    loadEnvFile(envFile);
+  }
 
-  // Load TypeORM configuration
-  const ormConfig = require(join(process.cwd(), ormConfigPath));
-  const dataSource = new DataSource(ormConfig);
+  // Extract database configuration from options or environment variables
+  const dbConfig = {
+    host: process.env[host],
+    port: process.env[port],
+    username: process.env[username],
+    password: process.env[password],
+    database: process.env[database],
+    type: type as any,
+    ssl: options?.ssl !== undefined ? options.ssl : (process.env.DB_SSL === 'true' || process.env.DB_SSL === '1')
+  };
+
+  // Create TypeORM DataSource configuration
+  const dataSourceConfig = {
+    type: dbConfig.type,
+    host: dbConfig.host,
+    port: dbConfig.port,
+    username: dbConfig.username,
+    password: dbConfig.password,
+    database: dbConfig.database,
+    synchronize: false, // Never auto-sync in production
+    logging: process.env.DB_LOGGING === 'true',
+    ssl: dbConfig.ssl ? { rejectUnauthorized: false } : false,
+    // Empty entities array since we're doing raw queries for database introspection
+    entities: [],
+    // Set reasonable connection pool settings
+    extra: {
+      max: 10,
+      min: 1,
+      acquireTimeoutMillis: 30000,
+      createTimeoutMillis: 30000,
+      destroyTimeoutMillis: 5000,
+      idleTimeoutMillis: 30000,
+      reapIntervalMillis: 1000,
+      createRetryIntervalMillis: 100
+    }
+  };
+
+  logger.info(`Creating DataSource with configuration:`);
+  logger.info(`- Type: ${dataSourceConfig.type}`);
+  logger.info(`- Host: ${dataSourceConfig.host}`);
+  logger.info(`- Port: ${dataSourceConfig.port}`);
+  logger.info(`- Database: ${dataSourceConfig.database}`);
+  logger.info(`- Username: ${dataSourceConfig.username}`);
+  logger.info(`- SSL: ${dataSourceConfig.ssl ? 'enabled' : 'disabled'}`);
+
+  const dataSource = new DataSource(dataSourceConfig);
 
   try {
     await dataSource.initialize();

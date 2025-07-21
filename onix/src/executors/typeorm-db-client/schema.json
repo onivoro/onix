@@ -2,19 +2,49 @@
   "$schema": "https://json-schema.org/schema",
   "version": 2,
   "title": "TypeORM DB Client",
-  "description": "",
+  "description": "A database client UI for TypeORM that creates a web-based interface for database exploration",
   "type": "object",
   "properties": {
     "envFile": {
       "type": "string",
-      "description": "Path and name of the .env file to load"
+      "description": "Path to the .env file to load environment variables from"
     },
-    "ormConfigPath": {
+    "host": {
       "type": "string",
-      "description": "Path and name of the ormconfig"
+      "description": "Database host (defaults to localhost or DB_HOST env var)",
+      "default": "localhost"
+    },
+    "port": {
+      "type": "number",
+      "description": "Database port (defaults to 5432 or DB_PORT env var)",
+      "default": 5432
+    },
+    "username": {
+      "type": "string",
+      "description": "Database username (defaults to postgres or DB_USERNAME/DB_USER env var)",
+      "default": "postgres"
+    },
+    "password": {
+      "type": "string",
+      "description": "Database password (defaults to empty or DB_PASSWORD env var)",
+      "default": ""
+    },
+    "database": {
+      "type": "string",
+      "description": "Database name (defaults to postgres or DB_DATABASE/DB_NAME env var)",
+      "default": "postgres"
+    },
+    "type": {
+      "type": "string",
+      "description": "Database type (defaults to postgres or DB_TYPE env var)",
+      "default": "postgres",
+      "enum": ["postgres", "mysql", "mariadb", "sqlite", "mssql", "oracle"]
+    },
+    "ssl": {
+      "type": "boolean",
+      "description": "Enable SSL connection (defaults to false or DB_SSL env var)",
+      "default": false
     }
   },
-  "required": [
-    "envFile", "ormConfigPath"
-  ]
+  "required": []
 }
