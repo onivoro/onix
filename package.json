@@ -17,10 +17,14 @@
     "@aws-sdk/credential-providers": "^3.782.0",
     "@nx/devkit": "20.5.0",
     "@nx/js": "20.5.0",
+    "@onivoro/server-html": "^24.25.1",
     "@playwright/test": "^1.51.1",
+    "@types/express": "^5.0.3",
     "adm-zip": "^0.5.16",
     "esbuild": "^0.25.2",
-    "esbuild-node-externals": "^1.18.0"
+    "esbuild-node-externals": "^1.18.0",
+    "express": "^5.1.0",
+    "typeorm": "^0.3.25"
   },
   "devDependencies": {
     "@nx/plugin": "20.5.0",

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "TypeORM DB Client",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "envFile": {
+      "type": "string",
+      "description": "Path and name of the .env file to load"
+    },
+    "ormConfigPath": {
+      "type": "string",
+      "description": "Path and name of the ormconfig"
+    }
+  },
+  "required": [
+    "envFile", "ormConfigPath"
+  ]
+}
