@@ -9,6 +9,10 @@
       "type": "string",
       "description": "Name of the S3 bucket to use for uploading Lambda artifacts"
     },
+    "installFlags": {
+      "type": "string",
+      "description": "Additional arguments to insert after package manager install command"
+    },
     "functionName": {
       "type": "string",
       "description": "Name to use for lambda. Defaults to context.projectName for clarity"
