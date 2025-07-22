@@ -25,11 +25,13 @@ export default executorFactory(async (
   }
 
   const http = env(httpPort);
+  const literalHost = env(host);
+  const resolvedHost = ['localhost', '127.0.0.1'].includes(literalHost) ? 'host.docker.internal' : literalHost;
 
   execSync(`docker` + ' ' + [
     'run',
     `-p ${http}:${http}`,
-    `--env="DV_HOST=${env(host)}"`,
+    `--env="DV_HOST=${env(resolvedHost)}"`,
     `--env="DV_DB=${env(db)}"`,
     `--env="DV_PASSWORD=${env(password)}"`,
     `--env="DV_PORT=${env(port)}"`,
