@@ -11,42 +11,48 @@
     },
     "host": {
       "type": "string",
-      "description": "Database host (defaults to localhost or DB_HOST env var)",
-      "default": "localhost"
+      "description": "Database host"
     },
     "port": {
-      "type": "number",
-      "description": "Database port (defaults to 5432 or DB_PORT env var)",
-      "default": 5432
+      "type": "string",
+      "description": "Database port"
     },
     "httpPort": {
-      "type": "number",
-      "description": "Local port to accept HTTP traffic",
-    },
-    "username": {
       "type": "string",
-      "description": "Database username (defaults to postgres or DB_USERNAME/DB_USER env var)",
-      "default": "postgres"
+      "description": "Local port to accept HTTP traffic"
+    },
+    "user": {
+      "type": "string",
+      "description": "Database username"
     },
     "password": {
       "type": "string",
-      "description": "Database password (defaults to empty or DB_PASSWORD env var)",
-      "default": ""
+      "description": "Database password"
     },
-    "database": {
+    "db": {
       "type": "string",
-      "description": "Database name (defaults to postgres or DB_DATABASE/DB_NAME env var)",
-      "default": "postgres"
+      "description": "Database name"
     },
     "type": {
       "type": "string",
-      "description": "Database type (defaults to postgres or DB_TYPE env var)",
-      "default": "postgres",
-      "enum": ["postgres", "mysql", "mariadb", "sqlite", "mssql", "oracle"]
+      "description": "Database type",
+      "enum": [
+        "postgres",
+        "mysql",
+        "mariadb",
+        "sqlite",
+        "mssql",
+        "oracle"
+      ]
     }
   },
   "required": [
-    "envFile",
-    "httpPort"
+    "db",
+    "host",
+    "httpPort",
+    "password",
+    "port",
+    "type",
+    "user"
   ]
 }
