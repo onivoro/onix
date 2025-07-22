@@ -6,5 +6,5 @@ export interface ExecutorSchema {
     password?: string;
     database?: string;
     type?: string;
-    ssl?: boolean;
+    httpPort: number;
 }

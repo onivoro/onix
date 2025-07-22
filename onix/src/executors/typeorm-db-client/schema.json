@@ -19,6 +19,10 @@
       "description": "Database port (defaults to 5432 or DB_PORT env var)",
       "default": 5432
     },
+    "httpPort": {
+      "type": "number",
+      "description": "Local port to accept HTTP traffic",
+    },
     "username": {
       "type": "string",
       "description": "Database username (defaults to postgres or DB_USERNAME/DB_USER env var)",
@@ -39,12 +43,10 @@
       "description": "Database type (defaults to postgres or DB_TYPE env var)",
       "default": "postgres",
       "enum": ["postgres", "mysql", "mariadb", "sqlite", "mssql", "oracle"]
-    },
-    "ssl": {
-      "type": "boolean",
-      "description": "Enable SSL connection (defaults to false or DB_SSL env var)",
-      "default": false
     }
   },
-  "required": []
+  "required": [
+    "envFile",
+    "httpPort"
+  ]
 }
