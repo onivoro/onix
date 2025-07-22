@@ -16,6 +16,13 @@
     "port": {
       "type": "number",
       "description": "Port docker port to bind to localhost"
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Environment variables structured as an object"
     }
   },
   "required": [
