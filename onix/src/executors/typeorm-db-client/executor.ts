@@ -42,11 +42,9 @@ export default executorFactory(async (
 });
 
 function env(value: string) {
-  if(!value) {
+  if(!value || !value.toString().includes('process.env')) {
     return value;
   }
 
-  if(value.toString().includes('process.env')) {
-    return eval(value);
-  }
+  return eval(value);
 }
