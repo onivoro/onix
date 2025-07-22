@@ -12,7 +12,7 @@
     },
     "typeorm-db-client": {
       "implementation": "./src/executors/typeorm-db-client/executor",
-      "schema": "./src/executors/typeorm/schema.json",
+      "schema": "./src/executors/typeorm-db-client/schema.json",
       "description": "typeorm-db-client"
     },
     "docker-run": {
