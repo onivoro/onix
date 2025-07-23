@@ -11,6 +11,7 @@ import {
 } from "@aws-sdk/client-lambda";
 import * as AdmZip from 'adm-zip';
 import { resolveAwsCredentials } from "./resolve-aws-credentials.function";
+import { interpolateEnvironmentObject } from "./interpolate-environment-object.function";
 
 export interface DeployLambdaConfig {
     bucket: string;
@@ -55,8 +56,8 @@ export async function deployLambda({
         Body: zipBuffer
     }));
 
-    const envVars: Environment | undefined = environment ? {
-        Variables: environment
+    const Environment: Environment | undefined = environment ? {
+        Variables: interpolateEnvironmentObject(environment)
     } : undefined;
 
     let functionExists = true;
@@ -86,18 +87,16 @@ export async function deployLambda({
                 S3Key: key
             },
             MemorySize: memorySize,
-            Environment: envVars
+            Environment
         }));
     } else {
-        let updatedEnvVars = envVars;
-
         await lambdaClient.send(new UpdateFunctionConfigurationCommand({
             FunctionName: functionName,
             Role: roleArn,
             Handler: handler,
             Runtime: runtime,
             MemorySize: memorySize,
-            Environment: updatedEnvVars,
+            Environment,
         }));
 
         await new Promise(resolve => setTimeout(resolve, delayMs));

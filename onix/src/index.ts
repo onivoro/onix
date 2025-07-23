@@ -9,6 +9,8 @@ export * from './plugins/plugin';
 export * from './functions/object-to-env-exports.function';
 export * from './functions/as-s3-app-key.function';
 export * from './functions/copy-from-s3.function';
+export * from './functions/interpolate-environment-expression.function';
+export * from './functions/interpolate-environment-object.function';
 export * from './functions/executor-factory.function';
 export * from './functions/extract-project-build-outputs.function';
 export * from './functions/extract-project-configuration.function';
