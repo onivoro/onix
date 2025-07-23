@@ -9,6 +9,10 @@
       "type": "string",
       "description": "Name of the S3 bucket to use for uploading Lambda artifacts"
     },
+    "envFile": {
+      "type": "string",
+      "description": "Path and name of the .env file to load"
+    },
     "installFlags": {
       "type": "string",
       "description": "Additional arguments to insert after package manager install command"
