@@ -3,8 +3,7 @@ import { ExecutorSchema } from './schema';
 import { loadEnvFile } from '../../functions/load-env-file.function';
 import { executorFactory } from '../../functions/executor-factory.function';
 import { interpolateEnvironmentExpression } from '../../functions/interpolate-environment-expression.function';
-import { execSync, spawn } from 'child_process';
-import { pm } from '../../functions/pm.function';
+import { pmxSpawn } from '../../functions/pmx.function';
 
 export default executorFactory(async (
   options: ExecutorSchema,
@@ -43,6 +42,5 @@ export default executorFactory(async (
       process.env[key] = value;
     });
 
-  const { dlx } = pm(context);
-  execSync(`${dlx} --yes @onivoro/app-server-datavore`, { env });
+  pmxSpawn(context, '--yes @onivoro/app-server-datavore', env);
 });
