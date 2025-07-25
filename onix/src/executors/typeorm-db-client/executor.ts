@@ -4,6 +4,7 @@ import { loadEnvFile } from '../../functions/load-env-file.function';
 import { executorFactory } from '../../functions/executor-factory.function';
 import { interpolateEnvironmentExpression } from '../../functions/interpolate-environment-expression.function';
 import { execSync, spawn } from 'child_process';
+import { pm } from '../../functions/pm.function';
 
 export default executorFactory(async (
   options: ExecutorSchema,
@@ -42,5 +43,6 @@ export default executorFactory(async (
       process.env[key] = value;
     });
 
-  execSync('npx --yes @onivoro/app-server-datavore', { env });
+  const { dlx } = pm(context);
+  execSync(`${dlx} --yes @onivoro/app-server-datavore`, { env });
 });
