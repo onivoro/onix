@@ -2,9 +2,12 @@ import { ExecutorContext } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
 import { loadEnvFile } from '../../functions/load-env-file.function';
 import { executorFactory } from '../../functions/executor-factory.function';
-import { execSync } from 'child_process';
+import { execSync, spawn } from 'child_process';
 import { arch } from 'os';
 import { interpolateEnvironmentExpression } from '../../functions/interpolate-environment-expression.function';
+import { bootstrap } from '@onivoro/app-server-datavore';
+
+const useDocker = false;
 
 export default executorFactory(async (
   options: ExecutorSchema,
@@ -27,19 +30,21 @@ export default executorFactory(async (
 
   const http = interpolateEnvironmentExpression(httpPort);
   const literalHost = interpolateEnvironmentExpression(host);
-  const resolvedHost = ['localhost', '127.0.0.1'].includes(literalHost) ? 'host.docker.internal' : literalHost;
 
-  execSync(`docker` + ' ' + [
-    'run',
-    `-p ${http}:${http}`,
-    `--env="DV_HOST=${interpolateEnvironmentExpression(resolvedHost)}"`,
-    `--env="DV_DB=${interpolateEnvironmentExpression(db)}"`,
-    `--env="DV_PASSWORD=${interpolateEnvironmentExpression(password)}"`,
-    `--env="DV_PORT=${interpolateEnvironmentExpression(port)}"`,
-    `--env="DV_USER=${interpolateEnvironmentExpression(user)}"`,
-    `--env="DV_TYPE=${interpolateEnvironmentExpression(type)}"`,
-    `--env="PORT=${http}"`,
-    `icedlee337/datavore:${(arch() === 'arm64') ? 'arm64v8' : 'amd64'}`
-  ].join(' '));
+  const datavoreEnvironment = {
+    DV_HOST: interpolateEnvironmentExpression(literalHost),
+    DV_DB: interpolateEnvironmentExpression(db),
+    DV_PASSWORD: interpolateEnvironmentExpression(password),
+    DV_PORT: interpolateEnvironmentExpression(port),
+    DV_USER: interpolateEnvironmentExpression(user),
+    DV_TYPE: interpolateEnvironmentExpression(type),
+    PORT: http,
+  };
 
+  Object.entries(datavoreEnvironment)
+    .forEach(([key, value]) => {
+      process.env[key] = value;
+    });
+
+  await bootstrap();
 });
