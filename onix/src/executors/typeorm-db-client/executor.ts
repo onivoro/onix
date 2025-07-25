@@ -2,12 +2,8 @@ import { ExecutorContext } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
 import { loadEnvFile } from '../../functions/load-env-file.function';
 import { executorFactory } from '../../functions/executor-factory.function';
-import { execSync, spawn } from 'child_process';
-import { arch } from 'os';
 import { interpolateEnvironmentExpression } from '../../functions/interpolate-environment-expression.function';
-import { bootstrap } from '@onivoro/app-server-datavore';
-
-const useDocker = false;
+import { spawn } from 'child_process';
 
 export default executorFactory(async (
   options: ExecutorSchema,
@@ -31,7 +27,7 @@ export default executorFactory(async (
   const http = interpolateEnvironmentExpression(httpPort);
   const literalHost = interpolateEnvironmentExpression(host);
 
-  const datavoreEnvironment = {
+  const env = {
     DV_HOST: interpolateEnvironmentExpression(literalHost),
     DV_DB: interpolateEnvironmentExpression(db),
     DV_PASSWORD: interpolateEnvironmentExpression(password),
@@ -41,10 +37,10 @@ export default executorFactory(async (
     PORT: http,
   };
 
-  Object.entries(datavoreEnvironment)
+  Object.entries(env)
     .forEach(([key, value]) => {
       process.env[key] = value;
     });
 
-  await bootstrap();
+  spawn('npx', ['--yes', '@onivoro/app-server-datavore'], { env });
 });
