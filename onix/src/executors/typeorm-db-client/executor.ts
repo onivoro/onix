@@ -3,7 +3,7 @@ import { ExecutorSchema } from './schema';
 import { loadEnvFile } from '../../functions/load-env-file.function';
 import { executorFactory } from '../../functions/executor-factory.function';
 import { interpolateEnvironmentExpression } from '../../functions/interpolate-environment-expression.function';
-import { spawn } from 'child_process';
+import { execSync, spawn } from 'child_process';
 
 export default executorFactory(async (
   options: ExecutorSchema,
@@ -42,5 +42,5 @@ export default executorFactory(async (
       process.env[key] = value;
     });
 
-  spawn('npx', ['--yes', '@onivoro/app-server-datavore'], { env });
+  execSync('npx --yes @onivoro/app-server-datavore', { env });
 });
