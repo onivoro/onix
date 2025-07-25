@@ -42,5 +42,5 @@ export default executorFactory(async (
       process.env[key] = value;
     });
 
-  pmxSpawn(context, '--yes @onivoro/app-server-datavore', env);
+  pmxSpawn(context, '--yes @onivoro/app-server-datavore@latest', env);
 });
