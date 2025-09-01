@@ -15,5 +15,5 @@ export default executorFactory(async (
   logger.info(`YOU NEED TO HAVE TERRAFORM INSTALLED IN ORDER TO USE THIS EXECUTOR`);
 
   execSync(`terraform init -reconfigure`, { stdio: 'inherit', cwd: terraformRoot });
-  execSync(`terraform ${terraformCommand}`, { stdio: 'inherit', cwd: terraformRoot, env });
+  execSync(`terraform ${terraformCommand}`, { stdio: 'inherit', cwd: terraformRoot, env: {...process.env, ...env} });
 });
