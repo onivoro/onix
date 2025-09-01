@@ -19,6 +19,7 @@ export * from './functions/get-index-html-content.function';
 export * from './functions/invalidate-cloud-front.function';
 export * from './functions/load-env-file.function';
 export * from './functions/normalize-output-path.function';
+export * from './functions/parse-env-file-for-terraform.function';
 export * from './functions/pm.function';
 export * from './functions/pmx.function';
 export * from './functions/resolve-aws-credentials.function';

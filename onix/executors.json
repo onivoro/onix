@@ -69,6 +69,11 @@
       "implementation": "./src/executors/playwright/executor",
       "schema": "./src/executors/playwright/schema.json",
       "description": "playwright"
+    },
+    "terraform": {
+      "implementation": "./src/executors/terraform/executor",
+      "schema": "./src/executors/terraform/schema.json",
+      "description": "terraform"
     }
   }
 }

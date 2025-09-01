@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "TypeORM executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "terraformCommand": {
+      "type": "string",
+      "description": "TypeORM CLI command: 'plan', 'apply', or 'show'"
+    },
+    "envFile": {
+      "type": "string",
+      "description": "Path and name of the .env file to load"
+    },
+    "terraformRoot": {
+      "type": "string",
+      "description": "Path to the terraform root"
+    },
+    "filterRegex": {
+      "type": "string",
+      "description": "Regular expression that will filter the environment file"
+    }
+  },
+  "required": [
+    "terraformCommand", "terraformRoot"
+  ]
+}
