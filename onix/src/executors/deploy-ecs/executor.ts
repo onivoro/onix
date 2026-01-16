@@ -1,7 +1,7 @@
 import { ExecutorContext, PromiseExecutor, logger } from '@nx/devkit';
 import { ExecutorSchema } from './schema';
 import { execSync } from 'child_process';
-import { pushImageToECRWrapped } from '../../functions/push-image-to-ecr-wrapped.function';
+import { pushImageToECR } from '../../functions/push-image-to-ecr.function';
 import { extractProjectBuildOutputs } from '../../functions/extract-project-build-outputs.function';
 import { extractProjectBuildAssets } from '../../functions/extract-project-build-assets.function';
 import { join } from 'path';
@@ -72,7 +72,8 @@ const executor: PromiseExecutor<ExecutorSchema> = async (
     }
 
     try {
-      await pushImageToECRWrapped({ ecr, profile });
+      const [registryId, ecrRegion] = ecr.replace('amazonaws.com', '').replace('dkr.ecr.', '').replace('/', '').split('.');
+      await pushImageToECR({ registryId, region: ecrRegion, ecr, profile });
     } catch (error) {
       logger.error({ error, detail: 'docker push failed' });
       throw error;
