@@ -21,6 +21,7 @@ export async function uploadDirectoryToS3(_: { directoryPath: string, directoryP
                     Key,
                     Body: fileContent,
                     ContentType: getContentType(file),
+                    CacheControl: 'no-cache',
                     ACL
                 };
 

@@ -74,6 +74,7 @@ export default executorFactory(async (
     ContentType: 'text/html',
     Body: html,
     Key: asS3AppKey({ app, version, name: 'index', ext: '.html' }),
+    CacheControl: 'no-cache',
     ACL
   }));
 });

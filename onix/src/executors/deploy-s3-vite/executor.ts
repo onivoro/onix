@@ -59,6 +59,7 @@ export default executorFactory(async (
       ContentType: contentType,
       Body: createReadStream(`${assetRoot}/${original}`, 'utf-8'),
       Key: key,
+      CacheControl: 'no-cache',
       ACL
     }))
   ));
@@ -70,6 +71,7 @@ export default executorFactory(async (
     ContentType: 'text/html',
     Body: html,
     Key: asS3AppKey({ app, version, name: 'index', ext: '.html' }),
+    CacheControl: 'no-cache',
     ACL
   }));
 });
