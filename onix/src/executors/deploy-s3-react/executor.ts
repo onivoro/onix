@@ -62,6 +62,7 @@ export default executorFactory(async (
       ContentType: contentType,
       Body: createReadStream(`${assetRoot}/${original}`, 'utf-8'),
       Key: key,
+      CacheControl: 'no-cache',
       ACL
     }));
   }));
