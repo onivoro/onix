@@ -349,6 +349,7 @@ Generates client code from OpenAPI specifications.
 - `openapiJsonPath` (string, required): Path to the openapi definition JSON file (or yml file)
 - `outputPath` (string, required): Path where the output of the openapi will be written
 - `flavor` (string): Lowercase identifier corresponding to one of the predefined openapi generator target formats. Defaults to 'typescript-axios'
+- `version` (string): Container version tag for `openapitools/openapi-generator-cli`. Defaults to 'v6.3.0'
 
 **Example usage:**
 ```json
@@ -359,7 +360,8 @@ Generates client code from OpenAPI specifications.
       "options": {
         "openapiJsonPath": "src/api/openapi.json",
         "outputPath": "src/generated/api",
-        "flavor": "typescript-axios"
+        "flavor": "typescript-axios",
+        "version": "v7.12.0"
       }
     }
   }

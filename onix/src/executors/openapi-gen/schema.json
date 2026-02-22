@@ -9,6 +9,10 @@
       "type": "string",
       "description": "Lowercase identifier corresponding to one of the predefined openapi generator target formats. Defaults to 'typescript-axios'."
     },
+    "version": {
+      "type": "string",
+      "description": "Container version tag for openapitools/openapi-generator-cli. Defaults to 'v6.3.0'."
+    },
     "openapiJsonPath": {
       "type": "string",
       "description": "Path to the openapi definition JSON file (or yml file)."
