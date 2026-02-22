@@ -13,6 +13,10 @@
       "type": "string",
       "description": "Container version tag for openapitools/openapi-generator-cli. Defaults to 'v6.3.0'."
     },
+    "additionalProperties": {
+      "type": "string",
+      "description": "Comma-separated key=value pairs passed to OpenAPI Generator CLI --additional-properties."
+    },
     "openapiJsonPath": {
       "type": "string",
       "description": "Path to the openapi definition JSON file (or yml file)."
