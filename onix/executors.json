@@ -74,6 +74,11 @@
       "implementation": "./src/executors/terraform/executor",
       "schema": "./src/executors/terraform/schema.json",
       "description": "terraform"
+    },
+    "deploy-fullstack": {
+      "implementation": "./src/executors/deploy-fullstack/executor",
+      "schema": "./src/executors/deploy-fullstack/schema.json",
+      "description": "Builds a server project with embedded UI assets and publishes to npm"
     }
   }
 }

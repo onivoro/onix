@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Release Fullstack executor",
+  "description": "Builds a server project with embedded UI assets and publishes to npm",
+  "type": "object",
+  "properties": {
+    "ui": {
+      "type": "string",
+      "description": "Name of the browser/UI project whose build output should be embedded in the server assets"
+    },
+    "dryRun": {
+      "type": "boolean",
+      "description": "If true, performs the build and asset copy but skips npm publish",
+      "default": false
+    },
+    "tag": {
+      "type": "string",
+      "description": "npm dist-tag to publish under (e.g. 'latest', 'next', 'beta')",
+      "default": "latest"
+    },
+    "access": {
+      "type": "string",
+      "enum": ["public", "restricted"],
+      "description": "npm publish access level",
+      "default": "public"
+    }
+  },
+  "required": ["ui"]
+}
